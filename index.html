@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Portfolio – Data Analyst</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- fullPage.js 👉 https://alvarotrigo.com/fullPage/ -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.21/fullpage.min.css"
+    />
+
+    <!-- Police libre et sobre -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* --------------------------------------------------
+         RESET & VARIABLES
+      -------------------------------------------------- */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --gutter: 1rem;
+        --radius: 1rem;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+        --white: #ffffff;
+        --black: #000000;
+        --bg-dark: #0d0d0d;
+      }
+
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        color: var(--white);
+        background: var(--bg-dark);
+      }
+
+      /* --------------------------------------------------
+         SECTIONS (fullpage.js remplit déjà 100 vh)
+      -------------------------------------------------- */
+      .section {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      /* ---------- PAGE 1 : VIDÉO GRAND ÉCRAN ---------- */
+      .video-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+      .welcome {
+        padding: 1rem 2rem;
+        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.45);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 600;
+      }
+
+      /* ---------- PAGES 2 & 3 : DEUX IMAGES + LOGO ---------- */
+      .logo {
+        position: absolute;
+        top: var(--gutter);
+        left: 50%;
+        translate: -50% 0;
+        width: clamp(80px, 12vw, 140px);
+        height: auto;
+      }
+      .images-wrapper {
+        display: flex;
+        gap: var(--gutter);
+        width: 90%;
+        max-width: 1400px;
+      }
+      .images-wrapper img {
+        flex: 1 1 50%;
+        object-fit: cover;
+        max-height: 80vh;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      /* ---------- PAGE 4 : CV EMBED ---------- */
+      .cv-frame {
+        width: 90%;
+        height: 90%;
+        max-width: 1000px;
+        border: none;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        background: var(--white);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- fullPage anchor wrapper -->
+    <div id="fullpage">
+      <!-- SECTION 1 -->
+      <div class="section" data-anchor="intro">
+        <video
+          class="video-bg"
+          src="assets/intro.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+        <div class="welcome">Bienvenue sur mon portfolio</div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="section" data-anchor="experience-1">
+        <!-- Remplacez par le logo de l'entreprise -->
+        <img src="assets/logo1.png" alt="Logo entreprise 1" class="logo" />
+        <div class="images-wrapper">
+          <img src="assets/exp1_img1.jpg" alt="Projet 1 – visuel 1" />
+          <img src="assets/exp1_img2.jpg" alt="Projet 1 – visuel 2" />
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="section" data-anchor="experience-2">
+        <img src="assets/logo2.png" alt="Logo entreprise 2" class="logo" />
+        <div class="images-wrapper">
+          <img src="assets/exp2_img1.jpg" alt="Projet 2 – visuel 1" />
+          <img src="assets/exp2_img2.jpg" alt="Projet 2 – visuel 2" />
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="section" data-anchor="cv">
+        <!-- Intégrez directement votre PDF de CV -->
+        <iframe
+          src="assets/CV.pdf"
+          title="Mon CV PDF"
+          class="cv-frame"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- fullPage.js script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.21/fullpage.min.js"></script>
+    <script>
+      /* -------------------------------------------
+         INITIALISATION fullPage.js
+      ------------------------------------------- */
+      new fullpage("#fullpage", {
+        autoScrolling: true,
+        navigation: true,
+        scrollingSpeed: 700,
+        anchors: ["intro", "experience-1", "experience-2", "cv"],
+        navigationTooltips: [
+          "Accueil",
+          "Expérience 1",
+          "Expérience 2",
+          "CV",
+        ],
+        showActiveTooltip: true,
+        credits: { enabled: false }, // retire le watermark
+      });
+    </script>
+  </body>
+</html>
