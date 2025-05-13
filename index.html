@@ -3,466 +3,195 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mon CV – Data</title>
-
-  <!-- FullPage.js -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullpage.js@4.0.21/dist/fullpage.min.css" />
-  <!-- Swiper carousel -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
+  <title>Mon CV interactif</title>
+  <!-- TailwindCSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- fullPage.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css" />
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <style>
-    :root {
-      --bg: #ffffff;
-      --primary: #111111;
-      --accent: #0077ff;
-    }
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Inter", sans-serif;
-    }
-    body {
-      background: var(--bg);
-      color: var(--primary);
-    }
-    /* ---------- Generic sections ---------- */
-    section {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-    /* ---------- Hover zoom on images ---------- */
-    img.hover-zoom {
-      transition: transform 0.3s ease;
-    }
-    img.hover-zoom:hover {
-      transform: scale(1.05);
-    }
-
-    /* ---------- KPI counters ---------- */
-    .kpis {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-    .kpi {
-      font-size: 3rem;
-      font-weight: 700;
-    }
-
-    /* ---------- Skill tags & popover ---------- */
-    .tag {
-      display: inline-block;
-      background: #f4f4f4;
-      border-radius: 9999px;
-      padding: 0.5rem 1rem;
-      margin: 0.5rem;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .tag:hover {
-      transform: scale(1.05);
-    }
-    .popover {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      background: #ffffff;
-      padding: 2rem 3rem;
-      border-radius: 1rem;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      transition: transform 0.3s;
-      max-width: 90%;
-      width: 400px;
-    }
-    .popover.active {
-      transform: translate(-50%, -50%) scale(1);
-    }
-    .popover-close {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    /* ---------- Parallax hobby images ---------- */
-    .parallax-img {
-      will-change: transform;
-    }
-
-    /* ---------- Contact form ---------- */
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      width: min(90%, 400px);
-      margin: 0 auto;
-    }
-    input,
-    textarea,
-    button {
-      padding: 0.75rem 1rem;
-      border: 1px solid #dddddd;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-    }
-    button {
-      background: var(--accent);
-      color: #ffffff;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background: #005ecb;
-    }
-
-    /* ---------- Footer fade-in ---------- */
-    footer {
-      font-size: 0.9rem;
-      padding: 2rem;
-      color: #666666;
-    }
-    .fade-in {
-      opacity: 0;
-      transition: opacity 1s;
-    }
-    .fade-in.in-view {
-      opacity: 1;
-    }
+    body{background:#ffffff;}
+    .section{display:flex;align-items:center;justify-content:center;min-height:100vh;}
+    .parallax{background-attachment:fixed;background-size:cover;background-position:center;}
+    img.hover-zoom{transition:transform .3s ease;}
+    img.hover-zoom:hover{transform:scale(1.05);}  
   </style>
 </head>
-<body>
+<body class="text-gray-800">
   <div id="fullpage">
-    <!-- PAGE 1 — HERO ---------------------------------------------------- -->
-    <section class="section" id="hero">
-      <video
-        src="assets/hero.mp4"
-        autoplay
-        muted
-        loop
-        playsinline
-        style="
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          position: absolute;
-          top: 0;
-          left: 0;
-          z-index: -1;
-        "
-      ></video>
-      <div
-        style="
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(8px);
-          padding: 2rem 4rem;
-          border-radius: 1rem;
-        "
-      >
-        <h1 style="font-size: 3rem">Résoudre vos défis data</h1>
+    <!-- PAGE 1 — Vidéo -->
+    <section class="section" id="video">
+      <video class="w-screen h-screen object-cover" autoplay muted loop playsinline>
+        <source src="assets/intro.mp4" type="video/mp4" />
+        <!-- Ajoutez éventuellement une piste de sous‑titres -->
+      </video>
+    </section>
+
+    <!-- PAGE 2 — IMPACT CHIFFRÉ -->
+    <section class="section flex flex-col space-y-8" id="impact">
+      <h2 class="text-3xl font-bold">Mon impact en chiffres</h2>
+      <div class="grid grid-cols-2 gap-10">
+        <div class="text-center">
+          <span class="counter text-5xl font-extrabold" data-target="22">0</span><span class="text-5xl font-extrabold">%</span>
+          <p class="mt-2">de croissance du CA</p>
+        </div>
+        <div class="text-center">
+          <span class="counter text-5xl font-extrabold" data-target="300">0</span><span class="text-5xl font-extrabold">h</span>
+          <p class="mt-2">de reporting automatisé</p>
+        </div>
+        <!-- Ajoutez deux compteurs de plus si besoin -->
       </div>
     </section>
 
-    <!-- PAGE 2 — IMPACT CHIFFRÉ ----------------------------------------- -->
-    <section class="section" id="impact">
-      <h2>Impact mesurable</h2>
-      <div class="kpis">
-        <div class="kpi" data-target="22" data-suffix=" %">0 %</div>
-        <div class="kpi" data-target="300" data-suffix=" h">0 h</div>
-        <div class="kpi" data-target="15" data-suffix=" min">0 min</div>
+    <!-- PAGE 3 — EXPERTISE & DIPLÔME -->
+    <section class="section flex flex-col items-center space-y-6" id="expertise">
+      <h2 class="text-3xl font-bold">Expertise & Diplômes</h2>
+      <img src="assets/diplome.jpg" alt="Diplôme" class="w-1/3 hover-zoom rounded-xl shadow-xl">
+      <div class="flex flex-wrap justify-center gap-4 max-w-3xl">
+        <!-- Exemple de tag compétence -->
+        <button class="skill-tag bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300" data-skill="python">Python</button>
+        <button class="skill-tag bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300" data-skill="sql">SQL</button>
+        <button class="skill-tag bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300" data-skill="powerbi">Power&nbsp;BI</button>
+        <!-- Ajoutez d'autres compétences -->
       </div>
     </section>
 
-    <!-- PAGE 3 — EXPERTISE & DIPLÔME ------------------------------------ -->
-    <section class="section" id="expertise">
-      <h2>Expertise & Diplôme</h2>
-      <img
-        src="assets/diplome.jpg"
-        alt="Diplôme"
-        class="hover-zoom"
-        style="max-width: 200px; border-radius: 1rem"
-      />
-      <h3 style="margin-top: 1.5rem">Compétences</h3>
-      <div id="skills">
-        <span class="tag" data-skill="Python">Python ●●●●◌</span>
-        <span class="tag" data-skill="SQL">SQL ●●●●◌</span>
-        <span class="tag" data-skill="Power BI">Power&nbsp;BI ●●●◌◌</span>
-        <span class="tag" data-skill="Machine Learning">Machine&nbsp;Learning ●●●◌◌</span>
-      </div>
+    <!-- PAGE 4 — PORTFOLIO : MISSION 1 -->
+    <section class="section flex flex-col items-center space-y-8" id="portfolio1">
+      <h2 class="text-3xl font-bold">Mission phare</h2>
+      <img src="assets/logo1.png" alt="Logo entreprise 1" class="w-32 hover-zoom">
+      <img src="assets/dashboard1.gif" alt="Dashboard interactif" class="w-3/4 rounded-lg hover-zoom shadow-xl">
     </section>
 
-    <!-- PAGE 4 — PORTFOLIO : MISSION 1 ---------------------------------- -->
-    <section class="section" id="portfolio1">
-      <img
-        src="assets/logo1.png"
-        alt="Entreprise 1"
-        style="max-width: 150px; margin-bottom: 1rem"
-      />
-      <h2>Projet phare : Tableau de bord ventes</h2>
-      <img
-        src="assets/dashboard1.png"
-        alt="Dashboard interactif"
-        class="hover-zoom"
-        style="max-width: 80%; border-radius: 1rem"
-      />
+    <!-- PAGE 5 — PORTFOLIO : MISSION 2 -->
+    <section class="section flex flex-col items-center space-y-8" id="portfolio2">
+      <h2 class="text-3xl font-bold">Autre mission</h2>
+      <img src="assets/logo2.png" alt="Logo entreprise 2" class="w-32 hover-zoom">
+      <img src="assets/dashboard2.gif" alt="Dashboard interactif" class="w-3/4 rounded-lg hover-zoom shadow-xl">
     </section>
 
-    <!-- PAGE 5 — PORTFOLIO : MISSION 2 ---------------------------------- -->
-    <section class="section" id="portfolio2">
-      <img
-        src="assets/logo2.png"
-        alt="Entreprise 2"
-        style="max-width: 150px; margin-bottom: 1rem"
-      />
-      <h2>Optimisation Supply Chain</h2>
-      <img
-        src="assets/dashboard2.png"
-        alt="Dashboard interactif"
-        class="hover-zoom"
-        style="max-width: 80%; border-radius: 1rem"
-      />
-    </section>
-
-    <!-- PAGE 6 — AVIS & TÉMOIGNAGES ------------------------------------ -->
-    <section class="section" id="testimonials">
-      <div style="width: 80%; max-width: 800px">
-        <video
-          src="assets/client_testimonial.mp4"
-          controls
-          style="width: 100%; border-radius: 1rem"
-        ></video>
-        <div class="swiper mySwiper" style="margin-top: 2rem">
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              « Travail exceptionnel&nbsp;! » — CEO, Startup A ⭐⭐⭐⭐⭐
-            </div>
-            <div class="swiper-slide">
-              « Un impact immédiat sur notre performance. » — CDO, Entreprise B ⭐⭐⭐⭐⭐
-            </div>
+    <!-- PAGE 6 — AVIS & TÉMOIGNAGES -->
+    <section class="section flex flex-col items-center space-y-6" id="testimonials">
+      <h2 class="text-3xl font-bold">Ils parlent de moi</h2>
+      <!-- Vidéo client -->
+      <video class="w-3/4 rounded-xl shadow-xl hover-zoom" controls>
+        <source src="assets/client-testimonial.mp4" type="video/mp4" />
+      </video>
+      <!-- Carousel citations -->
+      <div class="swiper-container w-3/4">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide text-center">
+            <blockquote class="text-xl italic">« Un travail remarquable et un impact immédiat. »</blockquote>
+            <p class="mt-2">⭐⭐⭐⭐⭐</p>
+          </div>
+          <div class="swiper-slide text-center">
+            <blockquote class="text-xl italic">« Toujours à l'écoute et force de proposition. »</blockquote>
+            <p class="mt-2">⭐⭐⭐⭐⭐</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 7 — HOBBIES ------------------------------------------------- -->
-    <section class="section" id="hobbies">
-      <div
-        style="
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1.5rem;
-          width: 90%;
-        "
-      >
-        <div class="parallax-img">
-          <img
-            src="assets/alpinisme.jpg"
-            alt="Alpinisme"
-            class="hover-zoom"
-            style="width: 100%; border-radius: 1rem"
-          />
-          <p>Alpinisme → persévérance</p>
+    <!-- PAGE 7 — HOBBIES = SOFT SKILLS -->
+    <section class="section flex flex-col items-center space-y-6" id="hobbies">
+      <h2 class="text-3xl font-bold">Au‑delà du travail</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-6">
+        <div class="relative overflow-hidden group rounded-xl shadow-xl">
+          <img src="assets/alpinisme.jpg" alt="Alpinisme" class="hover-zoom w-full h-full object-cover">
+          <span class="absolute bottom-4 left-4 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition">Persévérance</span>
         </div>
-        <div class="parallax-img">
-          <img
-            src="assets/piano.jpg"
-            alt="Piano"
-            class="hover-zoom"
-            style="width: 100%; border-radius: 1rem"
-          />
-          <p>Piano → sens du détail</p>
+        <div class="relative overflow-hidden group rounded-xl shadow-xl">
+          <img src="assets/piano.jpg" alt="Piano" class="hover-zoom w-full h-full object-cover">
+          <span class="absolute bottom-4 left-4 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition">Sens du détail</span>
         </div>
-        <div class="parallax-img">
-          <img
-            src="assets/lecture.jpg"
-            alt="Lecture"
-            class="hover-zoom"
-            style="width: 100%; border-radius: 1rem"
-          />
-          <p>Lecture → curiosité technique</p>
+        <div class="relative overflow-hidden group rounded-xl shadow-xl">
+          <img src="assets/lecture.jpg" alt="Lecture" class="hover-zoom w-full h-full object-cover">
+          <span class="absolute bottom-4 left-4 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition">Curiosité</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 8 — CV DÉTAILLÉ -------------------------------------------- -->
-    <section class="section" id="cv">
-      <h2>CV détaillé</h2>
-      <iframe
-        src="assets/CV.pdf"
-        style="width: 80%; height: 500px; border: none; border-radius: 1rem"
-      ></iframe>
-      <br />
-      <a
-        href="assets/CV.pdf"
-        download
-        class="hover-zoom"
-        style="
-          display: inline-block;
-          margin-top: 1rem;
-          padding: 1rem 2rem;
-          background: var(--accent);
-          color: #ffffff;
-          border-radius: 0.75rem;
-          text-decoration: none;
-        "
-        >Télécharger le PDF</a
-      >
+    <!-- PAGE 8 — CV DÉTAILLÉ -->
+    <section class="section flex flex-col items-center space-y-6" id="cv">
+      <h2 class="text-3xl font-bold">CV détaillé</h2>
+      <iframe src="assets/cv.pdf#toolbar=0" class="w-3/4 h-3/4 border shadow-xl"></iframe>
+      <a href="assets/cv.pdf" download class="mt-4 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700">Télécharger le PDF</a>
     </section>
 
-    <!-- PAGE 9 — CALL-TO-ACTION FINAL ----------------------------------- -->
-    <section class="section" id="cta">
-      <h2>Contactez-moi</h2>
-      <form id="contactForm">
-        <input type="text" name="nom" placeholder="Nom" required />
-        <input type="email" name="email" placeholder="E-mail" required />
-        <textarea
-          name="besoin"
-          rows="4"
-          placeholder="Votre besoin"
-        ></textarea>
-        <button type="submit">Envoyer</button>
+    <!-- PAGE 9 — CALL-TO-ACTION FINAL -->
+    <section class="section flex flex-col items-center space-y-6" id="contact">
+      <h2 class="text-3xl font-bold">Contactez‑moi</h2>
+      <form action="https://formspree.io/f/{votre-id}" method="POST" class="w-full max-w-md space-y-4">
+        <input type="text" name="name" placeholder="Nom" required class="w-full border p-3 rounded">
+        <input type="email" name="email" placeholder="Email" required class="w-full border p-3 rounded">
+        <textarea name="need" placeholder="Votre besoin" required class="w-full border p-3 rounded"></textarea>
+        <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">Envoyer</button>
       </form>
-      <br />
-      <a
-        href="https://calendly.com/votre-calendly"
-        target="_blank"
-        style="text-decoration: underline"
-        >Planifier un appel Calendly</a
-      >
+      <a href="https://calendly.com/votre-calendly" target="_blank" class="text-blue-600 underline">Réserver un créneau Calendly</a>
     </section>
 
-    <!-- PAGE 10 — FOOTER / MENTIONS ------------------------------------- -->
-    <section class="section" id="footer">
-      <footer class="fade-in">
-        <p>© 2025 Votre Nom. Tous droits réservés.</p>
-        <p>
-          <a href="#mentions">Mentions légales</a> |
-          <a href="#cookies">Politique cookies</a> |
-          <a href="https://linkedin.com/in/votreprofil" target="_blank">LinkedIn</a>
-        </p>
-      </footer>
+    <!-- PAGE 10 — FOOTER / MENTIONS -->
+    <section class="section flex flex-col items-center text-center space-y-4 text-sm" id="footer">
+      <p>© 2025 Votre Nom. Tous droits réservés.</p>
+      <a href="mentions-legales.html" class="underline">Mentions légales</a>
+      <a href="politique-cookies.html" class="underline">Politique cookies</a>
+      <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="underline">LinkedIn</a>
     </section>
   </div>
 
-  <!-- ---------- Popover Template ---------- -->
-  <div id="popoverTemplate" class="popover">
-    <span class="popover-close">&times;</span>
-    <div id="popoverContent">Exemple</div>
-  </div>
-
-  <!-- ---------- Scripts ---------- -->
-  <script src="https://cdn.jsdelivr.net/npm/fullpage.js@4.0.21/dist/fullpage.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.6.2/dist/countUp.umd.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
+  <!-- fullPage.js JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js"></script>
+  <!-- Swiper JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      /* ----------------------------- fullPage.js ----------------------------- */
-      new fullpage("#fullpage", {
-        autoScrolling: true,
-        navigation: true,
-        anchors: [
-          "hero",
-          "impact",
-          "expertise",
-          "portfolio1",
-          "portfolio2",
-          "testimonials",
-          "hobbies",
-          "cv",
-          "cta",
-          "footer",
-        ],
-        scrollingSpeed: 800,
-      });
+    // Init fullPage
+    new fullpage('#fullpage', {
+      autoScrolling: true,
+      navigation: true,
+      scrollingSpeed: 800,
+      anchors: ['video','impact','expertise','portfolio1','portfolio2','testimonials','hobbies','cv','contact','footer'],
+    });
 
-      /* ------------------------------ KPI counters --------------------------- */
-      const counters = document.querySelectorAll(".kpi");
-      function animateCounters() {
-        counters.forEach((el) => {
-          if (el.dataset.animated) return;
-          const target = parseFloat(el.dataset.target);
-          const countUp = new CountUp.CountUp(el, target, {
-            suffix: el.dataset.suffix || "",
-          });
-          if (!countUp.error) {
-            countUp.start();
-            el.dataset.animated = "true";
-          }
-        });
+    // Counters animation
+    function animateCounter(el) {
+      const target = +el.getAttribute('data-target');
+      const duration = 1500;
+      const step = Math.ceil(target / (duration / 16));
+      let current = 0;
+      function update() {
+        current += step;
+        if (current >= target) {
+          el.textContent = target;
+        } else {
+          el.textContent = current;
+          requestAnimationFrame(update);
+        }
       }
-      fullpage_api.on("afterLoad", function (origin, destination) {
-        if (destination.anchor === "impact") {
-          animateCounters();
-        }
+      update();
+    }
+
+    // Trigger counters on section load
+    document.addEventListener('fpAfterLoad', function(e){
+      if(e.anchor === 'impact'){
+        document.querySelectorAll('.counter').forEach(animateCounter);
+      }
+    });
+
+    // Skill tag popover (simple alert — remplacez par un vrai pop‑over si besoin)
+    document.querySelectorAll('.skill-tag').forEach(tag=>{
+      tag.addEventListener('click', ()=>{
+        alert('Exemple de projet lié à ' + tag.textContent + ' (à personnaliser)');
       });
+    });
 
-      /* ----------------------------- Swiper carousel ------------------------- */
-      new Swiper(".mySwiper", {
-        loop: true,
-        autoplay: {
-          delay: 4000,
-        },
-        allowTouchMove: false,
-      });
-
-      /* --------------------------- Skill tag popover ------------------------- */
-      const popover = document.getElementById("popoverTemplate");
-      document.getElementById("skills").addEventListener("click", (e) => {
-        if (e.target.classList.contains("tag")) {
-          document.getElementById("popoverContent").textContent =
-            "Exemple de projet " + e.target.dataset.skill;
-          popover.classList.add("active");
-        }
-      });
-      popover.querySelector(".popover-close").addEventListener("click", () =>
-        popover.classList.remove("active")
-      );
-
-      /* --------------------------- Parallax hobbies -------------------------- */
-      const parallaxImgs = document.querySelectorAll(".parallax-img");
-      window.addEventListener("scroll", () => {
-        parallaxImgs.forEach((img) => {
-          const speed = 0.1;
-          const offset = img.getBoundingClientRect().top * speed;
-          img.style.transform = `translateY(${offset}px)`;
-        });
-      });
-
-      /* ------------------------------ Footer fade-in ------------------------- */
-      const footerFade = document.querySelector("footer");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              footerFade.classList.add("in-view");
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      observer.observe(footerFade);
-
-      /* --------------------------- Contact form UX --------------------------- */
-      document
-        .getElementById("contactForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          alert("Merci pour votre message !");
-          this.reset();
-        });
+    // Swiper testimonials
+    new Swiper('.swiper-container', {
+      loop: true,
+      autoplay: {
+        delay: 4000,
+      },
+      effect: 'fade',
     });
   </script>
 </body>
