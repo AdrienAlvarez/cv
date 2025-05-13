@@ -1,397 +1,537 @@
-// Interactive CV Website – React + Tailwind + fullPage.js
-// ---------------------------------------------------------
-// Quickly spin up with:
-//   npx create-react-app interactive-cv --template cra-template-pwa
-//   cd interactive-cv
-//   npm i @fullpage/react-fullpage framer-motion react-countup swiper react-icons react-pdf react-modal
-//   npm i -D tailwindcss postcss autoprefixer
-//   npx tailwindcss init -p
-// Copy tailwind config from docs, include './src/**/*.{js,jsx}' in content
-// Add the below code into src/App.jsx, then `npm run start`
-// For GitHub Pages, add "homepage": "https://<user>.github.io/<repo>" in package.json and run
-//   npm run build && npx gh-pages -d build
-// ---------------------------------------------------------
-// NOTE: replace all ⬜ placeholders with your real media (videos, images, pdf)
-// ---------------------------------------------------------
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV – Data Scientist</title>
 
-import React, { useState } from 'react';
-import ReactFullpage from '@fullpage/react-fullpage';
-import { motion } from 'framer-motion';
-import CountUp from 'react-countup';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import { Document, Page, pdfjs } from 'react-pdf';
-import Modal from 'react-modal';
-import { FaLinkedin, FaCalendarAlt } from 'react-icons/fa';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import './index.css'; // Tailwind base + custom scroll‑snap helpers
-
-// required for react‑pdf worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-
-Modal.setAppElement('#root');
-
-export default function App() {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [pdfPages, setPdfPages] = useState(null);
-
-  const kpis = [
-    { value: 22, suffix: '%', label: 'de CA incrémental' },
-    { value: 300, suffix: 'h', label: 'reporting automatisé' },
-    { value: 5, suffix: 'M€', label: 'économies/an' },
-    { value: 4.9, decimal: '.', decimals: 1, suffix: '/5', label: 'note moyenne' },
-  ];
-
-  return (
-    <ReactFullpage
-      licenseKey={''} // free key for non‑commercial
-      scrollingSpeed={900}
-      anchors={[
-        'hero',
-        'impact',
-        'expertise',
-        'mission1',
-        'mission2',
-        'testimonials',
-        'hobbies',
-        'cv',
-        'cta',
-        'footer',
-      ]}
-      navigation
-      render={() => (
-        <ReactFullpage.Wrapper>
-          {/* PAGE 1 — HERO */}
-          <section className="section relative flex items-center justify-center bg-white overflow-hidden">
-            {/* BG video */}
-            <video
-              src="/media/hero.mp4" // ⬜ Replace with your 10–12 s muted looping video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover" />
-            {/* Overlay */}
-            <div className="relative z-10 text-center px-6">
-              <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-xl">
-                Je transforme vos <span className="text-primary-300">données</span> en décisions
-              </h1>
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                href="#cta"
-                className="mt-8 inline-block bg-primary-600 text-white py-3 px-6 rounded-2xl shadow-lg font-semibold">
-                Réservez un call gratuit
-              </motion.a>
-            </div>
-            {/* Scroll cue */}
-            <motion.div
-              initial={{ y: 0 }}
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white">
-              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 5v14M19 12l-7 7-7-7" />
-              </svg>
-            </motion.div>
-          </section>
-
-          {/* PAGE 2 — IMPACT CHIFFRÉ */}
-          <section className="section flex flex-col items-center justify-center bg-white text-gray-800">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl">
-              {kpis.map((k) => (
-                <motion.div
-                  key={k.label}
-                  whileHover={{ scale: 1.05 }}
-                  className="p-6 rounded-2xl shadow-xl text-center bg-gray-50">
-                  <div className="text-4xl md:text-5xl font-extrabold mb-2 text-primary-600">
-                    <CountUp end={k.value} suffix={k.suffix} decimals={k.decimals || 0} decimal={k.decimal || ','} duration={3} />
-                  </div>
-                  <p className="font-medium">{k.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </section>
-
-          {/* PAGE 3 — EXPERTISE & DIPLÔME */}
-          <section className="section flex flex-col items-center justify-center bg-white px-6">
-            <div className="flex flex-col md:flex-row items-center gap-10 max-w-6xl w-full">
-              <motion.img
-                whileHover={{ scale: 1.08 }}
-                src="/media/profile.jpg" // ⬜ Replace with your photo
-                alt="Photo diplôme"
-                className="w-40 h-40 rounded-full object-cover shadow-2xl" />
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">MSc Data Science – Polytechnique (2021)</h2>
-                <SkillCloud />
-              </div>
-            </div>
-          </section>
-
-          {/* PAGE 4 — PORTFOLIO 1 */}
-          <PortfolioSection
-            anchor="mission1"
-            title="Optimisation de la chaîne logistique"
-            context="Retail européen – 12 M € CA"
-            problem="Prévisions de stocks imprécises, ruptures fréquentes"
-            approach="Modèle ML prévisionnel + dashboard temps réel"
-            result="-18 % ruptures & +7 % marge"
-            demoImg="/media/dashboard1.png" />
-
-          {/* PAGE 5 — PORTFOLIO 2 */}
-          <PortfolioSection
-            anchor="mission2"
-            title="Segmentation marketing B2B"
-            context="SaaS – 30 k clients"
-            problem="Faible taux de réponse campagnes outbound"
-            approach="Clustering K‑means + scoring churn"
-            result="+22 % conversion & –15 % churn"
-            demoImg="/media/dashboard2.png" inverse />
-
-          {/* PAGE 6 — AVIS & TÉMOIGNAGES */}
-          <section className="section flex flex-col items-center justify-center bg-white px-6">
-            <div className="w-full max-w-4xl flex flex-col items-center gap-6">
-              <video src="/media/client-testimonial.mp4" controls className="w-full rounded-2xl shadow-xl" />
-              <Swiper autoplay={{ delay: 5000 }} loop className="w-full">
-                <SwiperSlide>
-                  <Testimonial text="Une expertise data rare qui a changé notre pilotage." author="A. Martin, CEO" />
-                </SwiperSlide>
-                <SwiperSlide>
-                  <Testimonial text="Méthode claire, résultats mesurables : +22 % de CA !" author="L. Dubois, CMO" />
-                </SwiperSlide>
-              </Swiper>
-            </div>
-          </section>
-
-          {/* PAGE 7 — HOBBIES */}
-          <section className="section flex flex-col items-center justify-center bg-white px-6 overflow-hidden">
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl w-full">
-              <HobbyCard img="/media/trail.jpg" title="Trail running" subtitle="persévérance" />
-              <HobbyCard img="/media/photo.jpg" title="Photographie urbaine" subtitle="sens du détail" />
-              <HobbyCard img="/media/iot.jpg" title="Bricolage IoT" subtitle="curiosité technique" />
-            </div>
-          </section>
-
-          {/* PAGE 8 — CV détaillé */}
-          <section className="section flex flex-col items-center justify-center bg-white px-6">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Parcours professionnel</h2>
-            <Timeline />
-            <a
-              href="/media/CV.pdf" // ⬜ replace with real pdf
-              download
-              className="mt-6 bg-primary-600 text-white py-3 px-6 rounded-2xl shadow-lg font-semibold inline-block">
-              Télécharger le PDF
-            </a>
-            <div className="w-full max-w-3xl mt-8 shadow-xl rounded-xl overflow-hidden">
-              <Document file="/media/CV.pdf" onLoadSuccess={({ numPages }) => setPdfPages(numPages)}>
-                {Array.from(new Array(pdfPages), (_, i) => (
-                  <Page key={i + 1} pageNumber={i + 1} width={800} />
-                ))}
-              </Document>
-            </div>
-          </section>
-
-          {/* PAGE 9 — CTA FINAL */}
-          <section id="cta" className="section flex items-center justify-center bg-white px-6">
-            <div className="max-w-lg w-full">
-              <h2 className="text-4xl font-bold mb-6 text-center">Prêt à booster vos données ?</h2>
-              <ContactForm />
-              <div className="flex items-center justify-center gap-6 mt-6 text-primary-600">
-                <a href="https://calendly.com/yourname/30min" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:underline"><FaCalendarAlt /> Calendly</a>
-                <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:underline"><FaLinkedin /> LinkedIn</a>
-              </div>
-            </div>
-          </section>
-
-          {/* PAGE 10 — FOOTER */}
-          <section className="section flex flex-col items-center justify-center bg-white text-sm text-gray-500 px-6 pt-20">
-            <p>© {new Date().getFullYear()} — Tous droits réservés</p>
-            <div className="flex gap-4 mt-4 underline">
-              <a href="/legal.html">Mentions légales</a>
-              <a href="/cookies.html">Politique cookies</a>
-            </div>
-          </section>
-
-          {/* Lightbox modal for dashboards */}
-          <Modal
-            isOpen={modalOpen}
-            onRequestClose={() => setModalOpen(false)}
-            className="max-w-5xl mx-auto my-20 outline-none">
-            <button onClick={() => setModalOpen(false)} className="absolute top-4 right-4 bg-white rounded-full shadow p-2">✕</button>
-            <img src="/media/dashboard-full.png" alt="Dashboard demo" className="w-full rounded-2xl" />
-          </Modal>
-        </ReactFullpage.Wrapper>
-      )}
+    <!-- FullPage.js CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css"
+      integrity="sha512-9zHto9vJIWi9W476zuwepwlQXAtIG6pG0uuh0IZ2R0jwBu4+yXtNH9/hdRBJ0t1yPPRptVdMjvP7mLFzprVmcg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
-  );
 
-  /* ---------------- Sub‑components ---------------- */
-  function SkillCloud() {
-    const skills = [
-      'Python',
-      'SQL',
-      'Power BI',
-      'Tableau',
-      'Pandas',
-      'Scikit‑learn',
-      'Snowflake',
-      'Docker',
-      'Airflow',
-    ];
-    const [popup, setPopup] = useState('');
-    return (
-      <div className="relative">
-        <div className="flex flex-wrap gap-3 max-w-xl">
-          {skills.map((s) => (
-            <motion.span
-              key={s}
-              whileHover={{ scale: 1.1 }}
-              onClick={() => setPopup(s)}
-              className="cursor-pointer px-4 py-1 bg-gray-100 rounded-full shadow text-sm font-medium hover:bg-primary-50">
-              {s}
-            </motion.span>
-          ))}
-        </div>
-        {popup && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-2xl p-4 w-60 z-50 text-center">
-            <p className="font-semibold mb-2">{popup}</p>
-            <p className="text-sm text-gray-600">Voir exemple de projet utilisant {popup}</p>
-            <button onClick={() => setPopup('')} className="mt-3 text-primary-600 font-semibold">Fermer</button>
-          </motion.div>
-        )}
-      </div>
-    );
-  }
+    <style>
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Inter", system-ui, sans-serif;
+        color: #111;
+        background: #fff;
+        line-height: 1.4;
+        overflow: hidden; /* handled by fullPage.js */
+      }
 
-  function PortfolioSection({ anchor, title, context, problem, approach, result, demoImg, inverse = false }) {
-    const Content = () => (
-      <div className="flex flex-col gap-4 max-w-lg">
-        <h2 className="text-3xl font-bold">{title}</h2>
-        <p><strong>Contexte :</strong> {context}</p>
-        <p><strong>Problème :</strong> {problem}</p>
-        <p><strong>Approche :</strong> {approach}</p>
-        <p><strong>Résultat :</strong> {result}</p>
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          className="mt-2 bg-primary-600 text-white py-2 px-5 rounded-2xl shadow"
-          onClick={() => setModalOpen(true)}>
-          Voir la démo
-        </motion.button>
-      </div>
-    );
-    const Image = () => (
-      <motion.img
-        whileHover={{ scale: 1.05 }}
-        src={demoImg}
-        alt="Dashboard capture"
-        className="w-full max-w-md rounded-2xl shadow-xl" />
-    );
-    return (
-      <section className="section flex items-center justify-center bg-white px-6">
-        <div className={`flex flex-col md:flex-row ${inverse ? 'md:flex-row-reverse' : ''} items-center gap-10 max-w-6xl`} id={anchor}>
-          <Content />
-          <Image />
+      h1,
+      h2,
+      h3 {
+        font-weight: 700;
+      }
+
+      .section {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        text-align: center;
+      }
+
+      /* ===== GENERIC INTERACTIONS ===== */
+      img.hover-scale {
+        transition: transform 0.35s ease;
+      }
+      img.hover-scale:hover {
+        transform: scale(1.05);
+      }
+
+      /* Scroll prompt arrow */
+      .scroll-down {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 2rem;
+        animation: bounce 2s infinite;
+        cursor: pointer;
+      }
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translate(-50%, 0);
+        }
+        40% {
+          transform: translate(-50%, -12px);
+        }
+        60% {
+          transform: translate(-50%, -6px);
+        }
+      }
+
+      /* ===== PAGE‑SPECIFIC STYLES ===== */
+
+      /* HERO */
+      #hero video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+      }
+      #hero h1 {
+        font-size: clamp(2rem, 6vw, 4rem);
+        color: #fff;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+      }
+
+      /* KPI COUNTERS */
+      .kpi-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 900px;
+        width: 100%;
+      }
+      .kpi {
+        font-size: 2rem;
+        font-weight: 600;
+      }
+      .kpi span {
+        font-size: 3rem;
+        color: #2563eb;
+      }
+
+      /* SKILL TAGS */
+      .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        max-width: 800px;
+      }
+      .skill-tag {
+        padding: 0.5rem 1rem;
+        background: #f3f4f6;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: background 0.25s;
+      }
+      .skill-tag:hover {
+        background: #e5e7eb;
+      }
+
+      .popover {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: 12px;
+        max-width: 440px;
+        width: 90%;
+        padding: 1.5rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        z-index: 9999;
+      }
+      .popover button {
+        margin-top: 1rem;
+        background: #2563eb;
+        color: #fff;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      /* LIGHTBOX */
+      #lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9998;
+      }
+      #lightbox iframe {
+        width: 80vw;
+        height: 80vh;
+        border: none;
+        border-radius: 12px;
+        background: #fff;
+      }
+
+      /* CAROUSEL SIMPLE */
+      .carousel {
+        width: 80vw;
+        max-width: 900px;
+        overflow: hidden;
+      }
+      .carousel-track {
+        display: flex;
+        transition: transform 0.6s ease;
+      }
+      .carousel-item {
+        min-width: 100%;
+        padding: 1rem;
+      }
+
+      /* PARALLAX HOBBIES */
+      .hobby-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        width: 300px;
+        height: 220px;
+      }
+      .hobby-card img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.35s ease;
+      }
+      .hobby-card:hover img {
+        transform: scale(1.1);
+      }
+      .hobby-card span {
+        position: absolute;
+        bottom: 12px;
+        left: 12px;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+      }
+
+      /* CTA FORM */
+      form {
+        display: grid;
+        gap: 1rem;
+        width: 100%;
+        max-width: 480px;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 1rem;
+      }
+      button.cta {
+        background: #2563eb;
+        color: #fff;
+        font-weight: 600;
+        padding: 0.75rem 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.25s;
+      }
+      button.cta:hover {
+        background: #1e40af;
+      }
+
+      /* FOOTER */
+      footer {
+        font-size: 0.85rem;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      footer.visible {
+        opacity: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="fullpage">
+      <!-- PAGE 1 — HERO -->
+      <section class="section" id="hero" data-anchor="hero">
+        <video
+          src="assets/hero.mp4"
+          class="hover-scale"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+        <h1>Je transforme vos données en décisions</h1>
+        <div class="scroll-down">⌄</div>
+      </section>
+
+      <!-- PAGE 2 — IMPACT CHIFFRÉ -->
+      <section class="section" id="impact" data-anchor="impact">
+        <h2>Impact chiffré</h2>
+        <div class="kpi-wrapper">
+          <div class="kpi"><span class="counter" data-target="22">0</span>% de CA</div>
+          <div class="kpi"><span class="counter" data-target="300">0</span> h reporting automatisé</div>
+          <div class="kpi"><span class="counter" data-target="15">0</span> pays couverts</div>
         </div>
       </section>
-    );
-  }
 
-  function Testimonial({ text, author }) {
-    return (
-      <div className="bg-gray-50 p-6 rounded-2xl shadow-xl flex flex-col items-center text-center gap-4">
-        <p className="text-lg italic">“{text}”</p>
-        <div className="font-semibold text-primary-600">{author}</div>
-        <div className="flex gap-1 text-yellow-400">{'★★★★★'.split('').map((s, i) => <span key={i}>★</span>)}</div>
-      </div>
-    );
-  }
+      <!-- PAGE 3 — EXPERTISE & DIPLÔME -->
+      <section class="section" id="expertise" data-anchor="expertise">
+        <img
+          src="assets/diploma.jpg"
+          alt="Photo diplôme"
+          class="hover-scale"
+          style="width: 160px; border-radius: 12px; margin-bottom: 1rem"
+        />
+        <h3>Master Data Science – ENSAI (2021)</h3>
+        <p>Cliquez sur une compétence pour voir un exemple</p>
+        <div class="skills" style="margin-top: 1rem">
+          <span class="skill-tag" data-example="Prévision des ventes avec Prophet">Python</span>
+          <span class="skill-tag" data-example="Optimisation requêtes entrepôt">SQL</span>
+          <span class="skill-tag" data-example="Dashboard RH en temps réel">Power&nbsp;BI</span>
+          <span class="skill-tag" data-example="Scraping données e‑commerce">Web&nbsp;Scraping</span>
+        </div>
+      </section>
 
-  function HobbyCard({ img, title, subtitle }) {
-    return (
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        className="relative h-80 rounded-2xl overflow-hidden shadow-xl group">
-        <motion.img
-          src={img}
-          alt={title}
-          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
-        <motion.div
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-          <h3 className="text-2xl font-bold">{title}</h3>
-          <p className="text-sm">→ {subtitle}</p>
-        </motion.div>
-      </motion.div>
-    );
-  }
+      <!-- PAGE 4 — PORTFOLIO: MISSION 1 -->
+      <section class="section" id="mission1" data-anchor="mission1">
+        <h2>Projet 1 – Optimisation Supply Chain</h2>
+        <p>
+          Contexte client → Problème → Approche → Résultat<br />
+          <button class="cta" data-demo="https://example.com/demo1">Voir la démo</button>
+        </p>
+        <img src="assets/dashboard1.png" alt="Dashboard 1" class="hover-scale" style="max-width: 600px; margin-top: 1rem;" />
+      </section>
 
-  function Timeline() {
-    const steps = [
-      { year: 2025, role: 'Lead Data Scientist – Freelance', desc: 'Accompagnement stratégie data & ML' },
-      { year: 2023, role: 'Senior Data Scientist – Scale‑up SaaS', desc: 'Optimisation pricing & churn' },
-      { year: 2021, role: 'MSc Data Science – Polytechnique', desc: 'Major de promo' },
-      { year: 2019, role: 'Ingénieur Data – Groupe Retail', desc: 'Automatisation reporting' },
-    ];
-    return (
-      <ol className="border-l-2 border-primary-600 mt-4">
-        {steps.map((s, i) => (
-          <li key={i} className="ml-6 mb-8">
-            <span className="absolute -left-3 flex items-center justify-center w-6 h-6 bg-primary-600 rounded-full" />
-            <h4 className="text-xl font-semibold">{s.year} — {s.role}</h4>
-            <p className="text-sm text-gray-600 mt-1">{s.desc}</p>
-          </li>
-        ))}
-      </ol>
-    );
-  }
+      <!-- PAGE 5 — PORTFOLIO: MISSION 2 -->
+      <section class="section" id="mission2" data-anchor="mission2">
+        <h2>Projet 2 – Prédiction Churn SaaS</h2>
+        <p>
+          Contexte client → Problème → Approche → Résultat<br />
+          <button class="cta" data-demo="https://example.com/demo2">Voir la démo</button>
+        </p>
+        <img src="assets/dashboard2.png" alt="Dashboard 2" class="hover-scale" style="max-width: 600px; margin-top: 1rem;" />
+      </section>
 
-  function ContactForm() {
-    const [sent, setSent] = useState(false);
-    return sent ? (
-      <div className="bg-green-50 p-6 rounded-2xl shadow text-center font-medium">Merci ! Je vous réponds sous 24 h.</div>
-    ) : (
-      <form
-        className="flex flex-col gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          // TODO integrate backend/service → here just fake success
-          setSent(true);
-        }}>
-        <input required placeholder="Nom" className="input" />
-        <input required type="email" placeholder="E‑mail" className="input" />
-        <textarea required placeholder="Votre besoin" rows="4" className="input" />
-        <button type="submit" className="bg-primary-600 text-white py-2 rounded-2xl shadow">Envoyer</button>
-      </form>
-    );
-  }
-}
+      <!-- PAGE 6 — AVIS & TEMOIGNAGES -->
+      <section class="section" id="testimonials" data-anchor="testimonials">
+        <h2>Témoignages</h2>
+        <video src="assets/client_testimonial.mp4" controls style="max-width: 720px"></video>
+        <div class="carousel" style="margin-top: 2rem">
+          <div class="carousel-track">
+            <div class="carousel-item">
+              « Une collaboration fluide et un impact mesurable » ⭐⭐⭐⭐⭐
+            </div>
+            <div class="carousel-item">
+              « +22 % de CA en 3 mois grâce à son modèle prédictif » ⭐⭐⭐⭐⭐
+            </div>
+          </div>
+        </div>
+      </section>
 
-// -------- index.css (inject these lines below Tailwind base) --------
-/* Enable scroll snapping in browsers that don’t support fullPage.js fallback */
-html, body, #root { height: 100%; }
-.section { @apply h-screen w-full flex justify-center items-center scroll-snap-start; }
-/* Tailwind custom classes */
-.input { @apply w-full border border-gray-300 rounded-2xl p-3 focus:outline-none focus:ring-2 focus:ring-primary-600; }
+      <!-- PAGE 7 — HOBBIES -->
+      <section class="section" id="hobbies" data-anchor="hobbies">
+        <h2>Hobbies & Soft Skills</h2>
+        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+          <div class="hobby-card parallax">
+            <img src="assets/trail.jpg" alt="Trail" />
+            <span>Trail running → Persévérance</span>
+          </div>
+          <div class="hobby-card parallax">
+            <img src="assets/photo.jpg" alt="Photo" />
+            <span>Photographie urbaine → Sens du détail</span>
+          </div>
+          <div class="hobby-card parallax">
+            <img src="assets/iot.jpg" alt="IoT" />
+            <span>Bricolage IoT → Curiosité technique</span>
+          </div>
+        </div>
+      </section>
 
-// -------- tailwind.config.js tips --------
-// module.exports = {
-//   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
-//   theme: {
-//     extend: {
-//       colors: {
-//         primary: {
-//           50: '#eff6ff',
-//           300: '#60a5fa',
-//           600: '#2563eb',
-//         },
-//       },
-//     },
-//   },
-//   plugins: [],
-// }
+      <!-- PAGE 8 — CV DETAILLE -->
+      <section class="section" id="cv" data-anchor="cv">
+        <h2>Parcours détaillé</h2>
+        <iframe src="assets/cv.pdf" style="width: 80vw; height: 70vh; border: none"></iframe>
+        <p style="margin-top: 1rem">
+          <a href="assets/cv.pdf" download>📄 Télécharger le PDF</a>
+        </p>
+      </section>
+
+      <!-- PAGE 9 — CALL TO ACTION -->
+      <section class="section" id="cta" data-anchor="cta">
+        <h2>Prêt à booster vos données ?</h2>
+        <form
+          action="https://formspree.io/f/your‑form‑id" method="POST" id="contactForm"
+        >
+          <input type="text" name="name" placeholder="Nom" required />
+          <input type="email" name="email" placeholder="E‑mail" required />
+          <textarea
+            name="need"
+            placeholder="Décrivez votre besoin…"
+            rows="4"
+          ></textarea>
+          <button type="submit" class="cta">Envoyer</button>
+        </form>
+        <p style="margin-top: 1rem">
+          <a href="https://calendly.com/votre‑lien">📅 Prendre RDV sur Calendly</a>
+        </p>
+      </section>
+
+      <!-- PAGE 10 — FOOTER / MENTIONS -->
+      <footer class="section" id="mentions" data-anchor="footer">
+        <h2>Mentions légales & Cookies</h2>
+        <p style="max-width: 600px; margin: 1rem auto">
+          Ce site n'utilise aucun cookie traçant. Les données du formulaire sont
+          traitées conformément au RGPD.
+        </p>
+        <p>© 2025 • <a href="https://linkedin.com/in/votre‑profil">LinkedIn</a></p>
+      </footer>
+    </div>
+
+    <!-- Lightbox modal -->
+    <div id="lightbox"></div>
+
+    <!-- FullPage.js -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js"
+      integrity="sha512-7STG07OOMv4souKobSfO/nfsr2jZNZAdXa43tYXhiq5zTKsFr6lht7AU9/2WNZaofdN+8Jgm9nu72mGTsxT+LQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <script>
+      /* ================================
+       * FULLPAGE INIT
+       * ==============================*/
+      new fullpage("#fullpage", {
+        autoScrolling: true,
+        navigation: true,
+        anchors: [
+          "hero",
+          "impact",
+          "expertise",
+          "mission1",
+          "mission2",
+          "testimonials",
+          "hobbies",
+          "cv",
+          "cta",
+          "footer",
+        ],
+        scrollOverflow: true,
+      });
+
+      /* ================================
+       * KPI COUNTERS
+       * ==============================*/
+      const counters = document.querySelectorAll(".counter");
+      const counterObserver = new IntersectionObserver(
+        (entries, obs) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counter = entry.target;
+              const update = () => {
+                const target = +counter.dataset.target;
+                const value = +counter.innerText;
+                const inc = Math.ceil(target / 60);
+                if (value < target) {
+                  counter.innerText = value + inc;
+                  requestAnimationFrame(update);
+                } else {
+                  counter.innerText = target;
+                }
+              };
+              update();
+              obs.unobserve(counter);
+            }
+          });
+        },
+        { threshold: 0.6 }
+      );
+      counters.forEach((c) => counterObserver.observe(c));
+
+      /* ================================
+       * SKILL POPOVERS
+       * ==============================*/
+      document.querySelectorAll(".skill-tag").forEach((tag) => {
+        tag.addEventListener("click", () => {
+          const pop = document.createElement("div");
+          pop.className = "popover";
+          pop.innerHTML = `<p>${tag.dataset.example}</p><button>Fermer</button>`;
+          document.body.appendChild(pop);
+          pop.querySelector("button").onclick = () => pop.remove();
+        });
+      });
+
+      /* ================================
+       * LIGHTBOX DEMO
+       * ==============================*/
+      const lightbox = document.getElementById("lightbox");
+      document.querySelectorAll("[data-demo]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const src = btn.dataset.demo;
+          lightbox.innerHTML = `<iframe src="${src}"></iframe>`;
+          lightbox.style.display = "flex";
+        });
+      });
+      lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) lightbox.style.display = "none";
+      });
+
+      /* ================================
+       * CAROUSEL (auto)
+       * ==============================*/
+      const track = document.querySelector(".carousel-track");
+      let slide = 0;
+      setInterval(() => {
+        slide = (slide + 1) % track.children.length;
+        track.style.transform = `translateX(-${100 * slide}%)`;
+      }, 4000);
+
+      /* ================================
+       * PARALLAX HOBBIES (light)
+       * ==============================*/
+      const hobbies = document.querySelectorAll(".parallax");
+      window.addEventListener("scroll", () => {
+        const offset = window.pageYOffset;
+        hobbies.forEach((h) => {
+          h.style.transform = `translateY(${offset * 0.15}px)`;
+        });
+      });
+
+      /* ================================
+       * FOOTER FADE-IN
+       * ==============================*/
+      const footer = document.querySelector("footer");
+      new IntersectionObserver(
+        (e) => {
+          if (e[0].isIntersecting) footer.classList.add("visible");
+        },
+        { threshold: 0.3 }
+      ).observe(footer);
+
+      /* ================================
+       * FORM SUCCESS MSG
+       * ==============================*/
+      const form = document.getElementById("contactForm");
+      form.addEventListener("submit", (e) => {
+        setTimeout(() => {
+          alert("Merci ! Votre message a bien été envoyé.");
+        }, 100); // simulate
+      });
+    </script>
+  </body>
+</html>
