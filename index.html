@@ -1,180 +1,397 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio – Data Analyst</title>
-    <!-- ------------- STYLES ------------- -->
-    <style>
-      /* ===== Global ===== */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        scroll-behavior: smooth; /* douce transition entre sections */
-      }
-      body {
-        font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-        background: #ffffff; /* fond blanc partout */
-        overflow: hidden; /* le scroll se fait dans <main> uniquement */
-      }
+// Interactive CV Website – React + Tailwind + fullPage.js
+// ---------------------------------------------------------
+// Quickly spin up with:
+//   npx create-react-app interactive-cv --template cra-template-pwa
+//   cd interactive-cv
+//   npm i @fullpage/react-fullpage framer-motion react-countup swiper react-icons react-pdf react-modal
+//   npm i -D tailwindcss postcss autoprefixer
+//   npx tailwindcss init -p
+// Copy tailwind config from docs, include './src/**/*.{js,jsx}' in content
+// Add the below code into src/App.jsx, then `npm run start`
+// For GitHub Pages, add "homepage": "https://<user>.github.io/<repo>" in package.json and run
+//   npm run build && npx gh-pages -d build
+// ---------------------------------------------------------
+// NOTE: replace all ⬜ placeholders with your real media (videos, images, pdf)
+// ---------------------------------------------------------
 
-      /* ===== Scrolling plein‑écran ===== */
-      main {
-        height: 100%;
-        overflow-y: scroll;
-        scroll-snap-type: y mandatory; /* enclenche le snap */
-        -webkit-overflow-scrolling: touch; /* inertie mobile */
-      }
-      section {
-        height: 100vh; /* toujours la hauteur de l’écran */
-        width: 100vw;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        scroll-snap-align: start;
-      }
+import React, { useState } from 'react';
+import ReactFullpage from '@fullpage/react-fullpage';
+import { motion } from 'framer-motion';
+import CountUp from 'react-countup';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import { Document, Page, pdfjs } from 'react-pdf';
+import Modal from 'react-modal';
+import { FaLinkedin, FaCalendarAlt } from 'react-icons/fa';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import './index.css'; // Tailwind base + custom scroll‑snap helpers
 
-      /* ===== Contenu vidéo ===== */
-      video {
-        width: 80%;
-        max-height: 80vh;
-        border-radius: 12px;
-        object-fit: cover;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
+// required for react‑pdf worker
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-      /* ===== Logos ===== */
-      .logo {
-        position: absolute;
-        top: 40px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 120px;
-        max-width: 30vw;
-      }
+Modal.setAppElement('#root');
 
-      /* ===== Grille d’images ===== */
-      .images {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        justify-content: center;
-        align-items: center;
-      }
-      .interactive-img {
-        width: 40vw;
-        max-width: 500px;
-        border-radius: 16px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-      }
-      .interactive-img:hover {
-        transform: scale(1.05);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      }
+export default function App() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [pdfPages, setPdfPages] = useState(null);
 
-      /* ===== CV (PDF) ===== */
-      .cv-embed {
-        width: 80%;
-        height: 90vh;
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
+  const kpis = [
+    { value: 22, suffix: '%', label: 'de CA incrémental' },
+    { value: 300, suffix: 'h', label: 'reporting automatisé' },
+    { value: 5, suffix: 'M€', label: 'économies/an' },
+    { value: 4.9, decimal: '.', decimals: 1, suffix: '/5', label: 'note moyenne' },
+  ];
 
-      /* ===== Responsive ===== */
-      @media (max-width: 768px) {
-        .interactive-img {
-          width: 80vw;
-        }
-        .logo {
-          width: 80px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <!-- ========= SECTION 1 : Vidéo d’introduction ========= -->
-      <section id="intro">
-        <!-- Remplacez assets/intro.mp4 par votre propre vidéo -->
-        <video src="assets/intro.mp4" autoplay muted loop playsinline></video>
-      </section>
+  return (
+    <ReactFullpage
+      licenseKey={''} // free key for non‑commercial
+      scrollingSpeed={900}
+      anchors={[
+        'hero',
+        'impact',
+        'expertise',
+        'mission1',
+        'mission2',
+        'testimonials',
+        'hobbies',
+        'cv',
+        'cta',
+        'footer',
+      ]}
+      navigation
+      render={() => (
+        <ReactFullpage.Wrapper>
+          {/* PAGE 1 — HERO */}
+          <section className="section relative flex items-center justify-center bg-white overflow-hidden">
+            {/* BG video */}
+            <video
+              src="/media/hero.mp4" // ⬜ Replace with your 10–12 s muted looping video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover" />
+            {/* Overlay */}
+            <div className="relative z-10 text-center px-6">
+              <h1 className="text-4xl md:text-6xl font-bold text-white drop-shadow-xl">
+                Je transforme vos <span className="text-primary-300">données</span> en décisions
+              </h1>
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                href="#cta"
+                className="mt-8 inline-block bg-primary-600 text-white py-3 px-6 rounded-2xl shadow-lg font-semibold">
+                Réservez un call gratuit
+              </motion.a>
+            </div>
+            {/* Scroll cue */}
+            <motion.div
+              initial={{ y: 0 }}
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white">
+              <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </motion.div>
+          </section>
 
-      <!-- ========= SECTION 2 : Projet / Expérience 1 ========= -->
-      <section id="experience-1">
-        <!-- Logo de l’entreprise 1 -->
-        <img class="logo" src="assets/logo1.png" alt="Logo Entreprise 1" />
+          {/* PAGE 2 — IMPACT CHIFFRÉ */}
+          <section className="section flex flex-col items-center justify-center bg-white text-gray-800">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl">
+              {kpis.map((k) => (
+                <motion.div
+                  key={k.label}
+                  whileHover={{ scale: 1.05 }}
+                  className="p-6 rounded-2xl shadow-xl text-center bg-gray-50">
+                  <div className="text-4xl md:text-5xl font-extrabold mb-2 text-primary-600">
+                    <CountUp end={k.value} suffix={k.suffix} decimals={k.decimals || 0} decimal={k.decimal || ','} duration={3} />
+                  </div>
+                  <p className="font-medium">{k.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </section>
 
-        <div class="images">
-          <img
-            class="interactive-img"
-            src="assets/proj1_img1.jpg"
-            alt="Projet 1 — visuel 1"
-          />
-          <img
-            class="interactive-img"
-            src="assets/proj1_img2.jpg"
-            alt="Projet 1 — visuel 2"
-          />
+          {/* PAGE 3 — EXPERTISE & DIPLÔME */}
+          <section className="section flex flex-col items-center justify-center bg-white px-6">
+            <div className="flex flex-col md:flex-row items-center gap-10 max-w-6xl w-full">
+              <motion.img
+                whileHover={{ scale: 1.08 }}
+                src="/media/profile.jpg" // ⬜ Replace with your photo
+                alt="Photo diplôme"
+                className="w-40 h-40 rounded-full object-cover shadow-2xl" />
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">MSc Data Science – Polytechnique (2021)</h2>
+                <SkillCloud />
+              </div>
+            </div>
+          </section>
+
+          {/* PAGE 4 — PORTFOLIO 1 */}
+          <PortfolioSection
+            anchor="mission1"
+            title="Optimisation de la chaîne logistique"
+            context="Retail européen – 12 M € CA"
+            problem="Prévisions de stocks imprécises, ruptures fréquentes"
+            approach="Modèle ML prévisionnel + dashboard temps réel"
+            result="-18 % ruptures & +7 % marge"
+            demoImg="/media/dashboard1.png" />
+
+          {/* PAGE 5 — PORTFOLIO 2 */}
+          <PortfolioSection
+            anchor="mission2"
+            title="Segmentation marketing B2B"
+            context="SaaS – 30 k clients"
+            problem="Faible taux de réponse campagnes outbound"
+            approach="Clustering K‑means + scoring churn"
+            result="+22 % conversion & –15 % churn"
+            demoImg="/media/dashboard2.png" inverse />
+
+          {/* PAGE 6 — AVIS & TÉMOIGNAGES */}
+          <section className="section flex flex-col items-center justify-center bg-white px-6">
+            <div className="w-full max-w-4xl flex flex-col items-center gap-6">
+              <video src="/media/client-testimonial.mp4" controls className="w-full rounded-2xl shadow-xl" />
+              <Swiper autoplay={{ delay: 5000 }} loop className="w-full">
+                <SwiperSlide>
+                  <Testimonial text="Une expertise data rare qui a changé notre pilotage." author="A. Martin, CEO" />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <Testimonial text="Méthode claire, résultats mesurables : +22 % de CA !" author="L. Dubois, CMO" />
+                </SwiperSlide>
+              </Swiper>
+            </div>
+          </section>
+
+          {/* PAGE 7 — HOBBIES */}
+          <section className="section flex flex-col items-center justify-center bg-white px-6 overflow-hidden">
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl w-full">
+              <HobbyCard img="/media/trail.jpg" title="Trail running" subtitle="persévérance" />
+              <HobbyCard img="/media/photo.jpg" title="Photographie urbaine" subtitle="sens du détail" />
+              <HobbyCard img="/media/iot.jpg" title="Bricolage IoT" subtitle="curiosité technique" />
+            </div>
+          </section>
+
+          {/* PAGE 8 — CV détaillé */}
+          <section className="section flex flex-col items-center justify-center bg-white px-6">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">Parcours professionnel</h2>
+            <Timeline />
+            <a
+              href="/media/CV.pdf" // ⬜ replace with real pdf
+              download
+              className="mt-6 bg-primary-600 text-white py-3 px-6 rounded-2xl shadow-lg font-semibold inline-block">
+              Télécharger le PDF
+            </a>
+            <div className="w-full max-w-3xl mt-8 shadow-xl rounded-xl overflow-hidden">
+              <Document file="/media/CV.pdf" onLoadSuccess={({ numPages }) => setPdfPages(numPages)}>
+                {Array.from(new Array(pdfPages), (_, i) => (
+                  <Page key={i + 1} pageNumber={i + 1} width={800} />
+                ))}
+              </Document>
+            </div>
+          </section>
+
+          {/* PAGE 9 — CTA FINAL */}
+          <section id="cta" className="section flex items-center justify-center bg-white px-6">
+            <div className="max-w-lg w-full">
+              <h2 className="text-4xl font-bold mb-6 text-center">Prêt à booster vos données ?</h2>
+              <ContactForm />
+              <div className="flex items-center justify-center gap-6 mt-6 text-primary-600">
+                <a href="https://calendly.com/yourname/30min" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:underline"><FaCalendarAlt /> Calendly</a>
+                <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:underline"><FaLinkedin /> LinkedIn</a>
+              </div>
+            </div>
+          </section>
+
+          {/* PAGE 10 — FOOTER */}
+          <section className="section flex flex-col items-center justify-center bg-white text-sm text-gray-500 px-6 pt-20">
+            <p>© {new Date().getFullYear()} — Tous droits réservés</p>
+            <div className="flex gap-4 mt-4 underline">
+              <a href="/legal.html">Mentions légales</a>
+              <a href="/cookies.html">Politique cookies</a>
+            </div>
+          </section>
+
+          {/* Lightbox modal for dashboards */}
+          <Modal
+            isOpen={modalOpen}
+            onRequestClose={() => setModalOpen(false)}
+            className="max-w-5xl mx-auto my-20 outline-none">
+            <button onClick={() => setModalOpen(false)} className="absolute top-4 right-4 bg-white rounded-full shadow p-2">✕</button>
+            <img src="/media/dashboard-full.png" alt="Dashboard demo" className="w-full rounded-2xl" />
+          </Modal>
+        </ReactFullpage.Wrapper>
+      )}
+    />
+  );
+
+  /* ---------------- Sub‑components ---------------- */
+  function SkillCloud() {
+    const skills = [
+      'Python',
+      'SQL',
+      'Power BI',
+      'Tableau',
+      'Pandas',
+      'Scikit‑learn',
+      'Snowflake',
+      'Docker',
+      'Airflow',
+    ];
+    const [popup, setPopup] = useState('');
+    return (
+      <div className="relative">
+        <div className="flex flex-wrap gap-3 max-w-xl">
+          {skills.map((s) => (
+            <motion.span
+              key={s}
+              whileHover={{ scale: 1.1 }}
+              onClick={() => setPopup(s)}
+              className="cursor-pointer px-4 py-1 bg-gray-100 rounded-full shadow text-sm font-medium hover:bg-primary-50">
+              {s}
+            </motion.span>
+          ))}
+        </div>
+        {popup && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white shadow-xl rounded-2xl p-4 w-60 z-50 text-center">
+            <p className="font-semibold mb-2">{popup}</p>
+            <p className="text-sm text-gray-600">Voir exemple de projet utilisant {popup}</p>
+            <button onClick={() => setPopup('')} className="mt-3 text-primary-600 font-semibold">Fermer</button>
+          </motion.div>
+        )}
+      </div>
+    );
+  }
+
+  function PortfolioSection({ anchor, title, context, problem, approach, result, demoImg, inverse = false }) {
+    const Content = () => (
+      <div className="flex flex-col gap-4 max-w-lg">
+        <h2 className="text-3xl font-bold">{title}</h2>
+        <p><strong>Contexte :</strong> {context}</p>
+        <p><strong>Problème :</strong> {problem}</p>
+        <p><strong>Approche :</strong> {approach}</p>
+        <p><strong>Résultat :</strong> {result}</p>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          className="mt-2 bg-primary-600 text-white py-2 px-5 rounded-2xl shadow"
+          onClick={() => setModalOpen(true)}>
+          Voir la démo
+        </motion.button>
+      </div>
+    );
+    const Image = () => (
+      <motion.img
+        whileHover={{ scale: 1.05 }}
+        src={demoImg}
+        alt="Dashboard capture"
+        className="w-full max-w-md rounded-2xl shadow-xl" />
+    );
+    return (
+      <section className="section flex items-center justify-center bg-white px-6">
+        <div className={`flex flex-col md:flex-row ${inverse ? 'md:flex-row-reverse' : ''} items-center gap-10 max-w-6xl`} id={anchor}>
+          <Content />
+          <Image />
         </div>
       </section>
+    );
+  }
 
-      <!-- ========= SECTION 3 : Projet / Expérience 2 ========= -->
-      <section id="experience-2">
-        <!-- Logo de l’entreprise 2 -->
-        <img class="logo" src="assets/logo2.png" alt="Logo Entreprise 2" />
+  function Testimonial({ text, author }) {
+    return (
+      <div className="bg-gray-50 p-6 rounded-2xl shadow-xl flex flex-col items-center text-center gap-4">
+        <p className="text-lg italic">“{text}”</p>
+        <div className="font-semibold text-primary-600">{author}</div>
+        <div className="flex gap-1 text-yellow-400">{'★★★★★'.split('').map((s, i) => <span key={i}>★</span>)}</div>
+      </div>
+    );
+  }
 
-        <div class="images">
-          <img
-            class="interactive-img"
-            src="assets/proj2_img1.jpg"
-            alt="Projet 2 — visuel 1"
-          />
-          <img
-            class="interactive-img"
-            src="assets/proj2_img2.jpg"
-            alt="Projet 2 — visuel 2"
-          />
-        </div>
-      </section>
+  function HobbyCard({ img, title, subtitle }) {
+    return (
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="relative h-80 rounded-2xl overflow-hidden shadow-xl group">
+        <motion.img
+          src={img}
+          alt={title}
+          className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
+          <h3 className="text-2xl font-bold">{title}</h3>
+          <p className="text-sm">→ {subtitle}</p>
+        </motion.div>
+      </motion.div>
+    );
+  }
 
-      <!-- ========= SECTION 4 : CV ========= -->
-      <section id="cv">
-        <!-- Intégrez ici votre CV (PDF ou image longue) -->
-        <embed
-          src="assets/cv.pdf"
-          type="application/pdf"
-          class="cv-embed"
-        />
-      </section>
-    </main>
+  function Timeline() {
+    const steps = [
+      { year: 2025, role: 'Lead Data Scientist – Freelance', desc: 'Accompagnement stratégie data & ML' },
+      { year: 2023, role: 'Senior Data Scientist – Scale‑up SaaS', desc: 'Optimisation pricing & churn' },
+      { year: 2021, role: 'MSc Data Science – Polytechnique', desc: 'Major de promo' },
+      { year: 2019, role: 'Ingénieur Data – Groupe Retail', desc: 'Automatisation reporting' },
+    ];
+    return (
+      <ol className="border-l-2 border-primary-600 mt-4">
+        {steps.map((s, i) => (
+          <li key={i} className="ml-6 mb-8">
+            <span className="absolute -left-3 flex items-center justify-center w-6 h-6 bg-primary-600 rounded-full" />
+            <h4 className="text-xl font-semibold">{s.year} — {s.role}</h4>
+            <p className="text-sm text-gray-600 mt-1">{s.desc}</p>
+          </li>
+        ))}
+      </ol>
+    );
+  }
 
-    <!-- ------------- SCRIPTS ------------- -->
-    <script>
-      /*
-        Le scroll‑snap CSS s’occupe déjà de passer d’une section à l’autre « au
-        coup de molette ». Le petit script suivant évite l’overscroll (rebond)
-        sur mobile iOS et désactive le scroll de fond.
-      */
-      document.addEventListener(
-        "touchmove",
-        (e) => {
-          // Empêche le scroll au‑delà de la première ou dernière section
-          if (
-            (window.scrollY === 0 && e.touches[0].clientY > 0) ||
-            (window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-              e.touches[0].clientY < 0)
-          ) {
-            e.preventDefault();
-          }
-        },
-        { passive: false }
-      );
-    </script>
-  </body>
-</html>
+  function ContactForm() {
+    const [sent, setSent] = useState(false);
+    return sent ? (
+      <div className="bg-green-50 p-6 rounded-2xl shadow text-center font-medium">Merci ! Je vous réponds sous 24 h.</div>
+    ) : (
+      <form
+        className="flex flex-col gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          // TODO integrate backend/service → here just fake success
+          setSent(true);
+        }}>
+        <input required placeholder="Nom" className="input" />
+        <input required type="email" placeholder="E‑mail" className="input" />
+        <textarea required placeholder="Votre besoin" rows="4" className="input" />
+        <button type="submit" className="bg-primary-600 text-white py-2 rounded-2xl shadow">Envoyer</button>
+      </form>
+    );
+  }
+}
+
+// -------- index.css (inject these lines below Tailwind base) --------
+/* Enable scroll snapping in browsers that don’t support fullPage.js fallback */
+html, body, #root { height: 100%; }
+.section { @apply h-screen w-full flex justify-center items-center scroll-snap-start; }
+/* Tailwind custom classes */
+.input { @apply w-full border border-gray-300 rounded-2xl p-3 focus:outline-none focus:ring-2 focus:ring-primary-600; }
+
+// -------- tailwind.config.js tips --------
+// module.exports = {
+//   content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+//   theme: {
+//     extend: {
+//       colors: {
+//         primary: {
+//           50: '#eff6ff',
+//           300: '#60a5fa',
+//           600: '#2563eb',
+//         },
+//       },
+//     },
+//   },
+//   plugins: [],
+// }
