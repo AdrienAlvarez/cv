@@ -1,631 +1,469 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CV – Résoudre vos défis data</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon CV – Data</title>
 
-    <!-- FullPage.js core -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css"
-      integrity="sha512-Q2qQqG0oNSmx+dLU7pjLvzIUIWdM9nc7oFNLkzY4roHpDvfDnwI+7QfUKoZtpKE+LZkTTneHKfxKV/Ivv9bl9w=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+  <!-- FullPage.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullpage.js@4.0.21/dist/fullpage.min.css" />
+  <!-- Swiper carousel -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <!-- Swiper for carousels -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css"
-      integrity="sha512-m2yIp3jxEV6OPu7w3GJdaD+8JGcyqCQDMcqFmFhH+LrVTo1GiFTS00kLfMv4RX3HxZomXBxRSkvrfPXA+44l3A=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --primary: #111111;
+      --accent: #0077ff;
+    }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Inter", sans-serif;
+    }
+    body {
+      background: var(--bg);
+      color: var(--primary);
+    }
+    /* ---------- Generic sections ---------- */
+    section {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    /* ---------- Hover zoom on images ---------- */
+    img.hover-zoom {
+      transition: transform 0.3s ease;
+    }
+    img.hover-zoom:hover {
+      transform: scale(1.05);
+    }
 
-    <style>
-      /* ----- RESET & GLOBAL ----- */
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+    /* ---------- KPI counters ---------- */
+    .kpis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .kpi {
+      font-size: 3rem;
+      font-weight: 700;
+    }
 
-      body {
-        font-family: "Inter", sans-serif;
-        background: #ffffff;
-        color: #111827;
-        overflow: hidden; /* handled by fullPage.js */
-      }
+    /* ---------- Skill tags & popover ---------- */
+    .tag {
+      display: inline-block;
+      background: #f4f4f4;
+      border-radius: 9999px;
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .tag:hover {
+      transform: scale(1.05);
+    }
+    .popover {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: #ffffff;
+      padding: 2rem 3rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      transition: transform 0.3s;
+      max-width: 90%;
+      width: 400px;
+    }
+    .popover.active {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .popover-close {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
 
-      h1,
-      h2,
-      h3,
-      h4 {
-        font-weight: 700;
-      }
+    /* ---------- Parallax hobby images ---------- */
+    .parallax-img {
+      will-change: transform;
+    }
 
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
+    /* ---------- Contact form ---------- */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: min(90%, 400px);
+      margin: 0 auto;
+    }
+    input,
+    textarea,
+    button {
+      padding: 0.75rem 1rem;
+      border: 1px solid #dddddd;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #005ecb;
+    }
 
-      img {
-        transition: transform 0.3s ease;
-      }
+    /* ---------- Footer fade-in ---------- */
+    footer {
+      font-size: 0.9rem;
+      padding: 2rem;
+      color: #666666;
+    }
+    .fade-in {
+      opacity: 0;
+      transition: opacity 1s;
+    }
+    .fade-in.in-view {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="fullpage">
+    <!-- PAGE 1 — HERO ---------------------------------------------------- -->
+    <section class="section" id="hero">
+      <video
+        src="assets/hero.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        style="
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+        "
+      ></video>
+      <div
+        style="
+          background: rgba(255, 255, 255, 0.6);
+          backdrop-filter: blur(8px);
+          padding: 2rem 4rem;
+          border-radius: 1rem;
+        "
+      >
+        <h1 style="font-size: 3rem">Résoudre vos défis data</h1>
+      </div>
+    </section>
 
-      img:hover {
-        transform: scale(1.05);
-      }
+    <!-- PAGE 2 — IMPACT CHIFFRÉ ----------------------------------------- -->
+    <section class="section" id="impact">
+      <h2>Impact mesurable</h2>
+      <div class="kpis">
+        <div class="kpi" data-target="22" data-suffix=" %">0 %</div>
+        <div class="kpi" data-target="300" data-suffix=" h">0 h</div>
+        <div class="kpi" data-target="15" data-suffix=" min">0 min</div>
+      </div>
+    </section>
 
-      .section {
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-      }
+    <!-- PAGE 3 — EXPERTISE & DIPLÔME ------------------------------------ -->
+    <section class="section" id="expertise">
+      <h2>Expertise & Diplôme</h2>
+      <img
+        src="assets/diplome.jpg"
+        alt="Diplôme"
+        class="hover-zoom"
+        style="max-width: 200px; border-radius: 1rem"
+      />
+      <h3 style="margin-top: 1.5rem">Compétences</h3>
+      <div id="skills">
+        <span class="tag" data-skill="Python">Python ●●●●◌</span>
+        <span class="tag" data-skill="SQL">SQL ●●●●◌</span>
+        <span class="tag" data-skill="Power BI">Power&nbsp;BI ●●●◌◌</span>
+        <span class="tag" data-skill="Machine Learning">Machine&nbsp;Learning ●●●◌◌</span>
+      </div>
+    </section>
 
-      .btn-primary {
-        background: #111827;
-        color: #fff;
-        border: none;
-        padding: 1rem 2rem;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
+    <!-- PAGE 4 — PORTFOLIO : MISSION 1 ---------------------------------- -->
+    <section class="section" id="portfolio1">
+      <img
+        src="assets/logo1.png"
+        alt="Entreprise 1"
+        style="max-width: 150px; margin-bottom: 1rem"
+      />
+      <h2>Projet phare : Tableau de bord ventes</h2>
+      <img
+        src="assets/dashboard1.png"
+        alt="Dashboard interactif"
+        class="hover-zoom"
+        style="max-width: 80%; border-radius: 1rem"
+      />
+    </section>
 
-      .btn-primary:hover {
-        background: #4b5563;
-      }
+    <!-- PAGE 5 — PORTFOLIO : MISSION 2 ---------------------------------- -->
+    <section class="section" id="portfolio2">
+      <img
+        src="assets/logo2.png"
+        alt="Entreprise 2"
+        style="max-width: 150px; margin-bottom: 1rem"
+      />
+      <h2>Optimisation Supply Chain</h2>
+      <img
+        src="assets/dashboard2.png"
+        alt="Dashboard interactif"
+        class="hover-zoom"
+        style="max-width: 80%; border-radius: 1rem"
+      />
+    </section>
 
-      /* ----- PAGE SPECIFIC ----- */
-      /* HERO */
-      #hero video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1;
-      }
-
-      #hero .overlay {
-        backdrop-filter: brightness(0.5);
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-      }
-
-      #hero h1 {
-        font-size: 3rem;
-        color: #ffffff;
-        margin-bottom: 2rem;
-      }
-
-      .scroll-prompt {
-        position: absolute;
-        bottom: 2rem;
-        animation: bounce 2s infinite;
-        font-size: 0.9rem;
-        color: #ffffff;
-      }
-
-      @keyframes bounce {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-
-      /* IMPACT NUMBERS */
-      .kpi-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 2rem;
-        width: 100%;
-        max-width: 900px;
-      }
-
-      .kpi {
-        font-size: 2.5rem;
-        font-weight: 800;
-      }
-
-      .kpi-label {
-        margin-top: 0.5rem;
-        font-size: 1rem;
-        color: #6b7280;
-      }
-
-      /* EXPERTISE TAGS */
-      .tag-cloud {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: 2rem;
-      }
-
-      .tag {
-        background: #f3f4f6;
-        padding: 0.6rem 1rem;
-        border-radius: 9999px;
-        cursor: pointer;
-        transition: background 0.3s;
-      }
-
-      .tag:hover {
-        background: #e5e7eb;
-      }
-
-      .popover {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: #ffffff;
-        padding: 2rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        width: 90%;
-        max-width: 400px;
-        display: none;
-        z-index: 100;
-      }
-
-      .popover.active {
-        display: block;
-      }
-
-      /* PORTFOLIO */
-      .portfolio-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        max-width: 800px;
-      }
-
-      .portfolio-grid img {
-        width: 100%;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      /* TESTIMONIALS */
-      .swiper {
-        width: 100%;
-        max-width: 600px;
-      }
-
-      .testimonial-quote {
-        font-style: italic;
-        margin: 1rem 0;
-        line-height: 1.4;
-      }
-
-      /* HOBBIES */
-      .hobby {
-        position: relative;
-        overflow: hidden;
-        border-radius: 0.75rem;
-      }
-
-      .hobby img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transform: scale(1.1);
-        transition: transform 1.5s ease;
-      }
-
-      .fp-viewing-hobbies .hobby img {
-        transform: scale(1);
-      }
-
-      .hobby-label {
-        position: absolute;
-        bottom: 1rem;
-        left: 1rem;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-weight: 600;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      /* CV TIMELINE */
-      .timeline {
-        position: relative;
-        margin: 2rem auto;
-        max-width: 600px;
-      }
-
-      .timeline::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 4px;
-        height: 100%;
-        background: #e5e7eb;
-      }
-
-      .timeline-item {
-        position: relative;
-        width: 50%;
-        padding: 1rem 2rem;
-      }
-
-      .timeline-item:nth-child(odd) {
-        left: 0;
-      }
-
-      .timeline-item:nth-child(even) {
-        left: 50%;
-      }
-
-      .timeline-item::before {
-        content: "";
-        position: absolute;
-        top: 1.2rem;
-        right: -8px;
-        width: 16px;
-        height: 16px;
-        background: #111827;
-        border-radius: 50%;
-      }
-
-      .timeline-item:nth-child(even)::before {
-        left: -8px;
-      }
-
-      /* CONTACT FORM */
-      .contact-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        width: 100%;
-        max-width: 400px;
-      }
-
-      .contact-form input,
-      .contact-form textarea {
-        padding: 0.8rem 1rem;
-        border: 1px solid #d1d5db;
-        border-radius: 0.5rem;
-        font-size: 1rem;
-        resize: vertical;
-      }
-
-      .success-message {
-        display: none;
-        margin-top: 1rem;
-        color: #16a34a;
-        font-weight: 600;
-      }
-
-      /* FOOTER */
-      footer {
-        font-size: 0.9rem;
-        color: #6b7280;
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="fullpage">
-      <!-- PAGE 1 — HERO -->
-      <section class="section" id="hero" data-anchor="hero">
+    <!-- PAGE 6 — AVIS & TÉMOIGNAGES ------------------------------------ -->
+    <section class="section" id="testimonials">
+      <div style="width: 80%; max-width: 800px">
         <video
-          src="assets/hero-video.mp4"
-          autoplay
-          loop
-          muted
-          playsinline
-        ></video>
-        <div class="overlay"></div>
-        <h1>Résoudre vos défis data</h1>
-        <div class="scroll-prompt">▼ Faites défiler</div>
-      </section>
-
-      <!-- PAGE 2 — IMPACT CHIFFRÉ -->
-      <section class="section" id="impact" data-anchor="impact">
-        <h2>Impact mesurable</h2>
-        <div class="kpi-container">
-          <div>
-            <div class="kpi" data-count="22">0</div>
-            <div class="kpi-label">+% de CA</div>
-          </div>
-          <div>
-            <div class="kpi" data-count="300">0</div>
-            <div class="kpi-label">heures de reporting automatisé</div>
-          </div>
-          <div>
-            <div class="kpi" data-count="8">0</div>
-            <div class="kpi-label">projets livrés</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- PAGE 3 — EXPERTISE & DIPLÔME -->
-      <section class="section" id="expertise" data-anchor="expertise">
-        <h2>Expertise & diplôme</h2>
-        <img
-          src="assets/diploma.jpg"
-          alt="Diplôme"
-          style="max-width: 200px; border-radius: 0.75rem; margin-top: 1rem"
-        />
-        <p>Ingénieur Data – Polytech, 2021</p>
-
-        <div class="tag-cloud" id="tag-cloud">
-          <span class="tag" data-skill="Python">Python</span>
-          <span class="tag" data-skill="SQL">SQL</span>
-          <span class="tag" data-skill="Power BI">Power BI</span>
-          <span class="tag" data-skill="ML">Machine Learning</span>
-          <span class="tag" data-skill="Docker">Docker</span>
-        </div>
-      </section>
-
-      <!-- PAGE 4 — PORTFOLIO : MISSION 1 -->
-      <section class="section" id="mission1" data-anchor="mission1">
-        <h2>Mission 1 : Optimisation supply chain</h2>
-        <div class="portfolio-grid">
-          <p>
-            <strong>Contexte :</strong> Retail – prévision des ventes
-            <br /><strong>Problème :</strong> rupture de stock récurrente
-            <br /><strong>Approche :</strong> modèle ARIMA + dashboard Power BI
-            <br /><strong>Résultat :</strong> -15 % stock dormant, +8 % ventes
-          </p>
-          <img
-            src="assets/dashboard1.png"
-            alt="Capture dashboard"
-          />
-        </div>
-      </section>
-
-      <!-- PAGE 5 — PORTFOLIO : MISSION 2 -->
-      <section class="section" id="mission2" data-anchor="mission2">
-        <h2>Mission 2 : Prédiction churn</h2>
-        <div class="portfolio-grid">
-          <p>
-            <strong>Contexte :</strong> SaaS B2B – fidélisation client
-            <br /><strong>Problème :</strong> churn 12 %
-            <br /><strong>Approche :</strong> gradient boosting, SHAP explanations
-            <br /><strong>Résultat :</strong> churn réduit à 8 %, +1 M€ revenus
-          </p>
-          <img
-            src="assets/dashboard2.png"
-            alt="Capture dashboard"
-          />
-        </div>
-      </section>
-
-      <!-- PAGE 6 — AVIS & TÉMOIGNAGES -->
-      <section class="section" id="testimonials" data-anchor="testimonials">
-        <h2>Avis & témoignages</h2>
-        <video
-          src="assets/client-testimonial.mp4"
+          src="assets/client_testimonial.mp4"
           controls
-          style="max-width: 500px; width: 100%; border-radius: 0.75rem"
+          style="width: 100%; border-radius: 1rem"
         ></video>
-
         <div class="swiper mySwiper" style="margin-top: 2rem">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <p class="testimonial-quote">
-                « Une réactivité et un sens de la donnée impressionnants ! »
-              </p>
-              ⭐⭐⭐⭐⭐
+              « Travail exceptionnel&nbsp;! » — CEO, Startup A ⭐⭐⭐⭐⭐
             </div>
             <div class="swiper-slide">
-              <p class="testimonial-quote">
-                « Nos reporting hebdo sont passés de 3 h à 5 min. »
-              </p>
-              ⭐⭐⭐⭐⭐
+              « Un impact immédiat sur notre performance. » — CDO, Entreprise B ⭐⭐⭐⭐⭐
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- PAGE 7 — HOBBIES = SOFT SKILLS -->
-      <section class="section" id="hobbies" data-anchor="hobbies">
-        <h2>Hobbies & soft skills</h2>
-        <div
-          class="hobby"
-          style="max-width: 600px; height: 300px; margin-top: 1.5rem"
-        >
-          <img src="assets/trail.jpg" alt="Trail" />
-          <span class="hobby-label">Trail running → persévérance</span>
+    <!-- PAGE 7 — HOBBIES ------------------------------------------------- -->
+    <section class="section" id="hobbies">
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+          width: 90%;
+        "
+      >
+        <div class="parallax-img">
+          <img
+            src="assets/alpinisme.jpg"
+            alt="Alpinisme"
+            class="hover-zoom"
+            style="width: 100%; border-radius: 1rem"
+          />
+          <p>Alpinisme → persévérance</p>
         </div>
-        <div
-          class="hobby"
-          style="max-width: 600px; height: 300px; margin-top: 1.5rem"
-        >
-          <img src="assets/photo.jpg" alt="Photographie" />
-          <span class="hobby-label">Photographie urbaine → sens du détail</span>
+        <div class="parallax-img">
+          <img
+            src="assets/piano.jpg"
+            alt="Piano"
+            class="hover-zoom"
+            style="width: 100%; border-radius: 1rem"
+          />
+          <p>Piano → sens du détail</p>
         </div>
-        <div
-          class="hobby"
-          style="max-width: 600px; height: 300px; margin-top: 1.5rem"
-        >
-          <img src="assets/iot.jpg" alt="IoT" />
-          <span class="hobby-label">Bricolage IoT → curiosité technique</span>
+        <div class="parallax-img">
+          <img
+            src="assets/lecture.jpg"
+            alt="Lecture"
+            class="hover-zoom"
+            style="width: 100%; border-radius: 1rem"
+          />
+          <p>Lecture → curiosité technique</p>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- PAGE 8 — CV DÉTAILLÉ -->
-      <section class="section" id="cv" data-anchor="cv">
-        <h2>CV détaillé</h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <h4>2022 – Aujourd'hui</h4>
-            <p>Data Scientist, Freelance</p>
-          </div>
-          <div class="timeline-item">
-            <h4>2021 – 2022</h4>
-            <p>Data Analyst, FinTech</p>
-          </div>
-          <div class="timeline-item">
-            <h4>2019 – 2021</h4>
-            <p>Stage & alternance, Retail Analytics</p>
-          </div>
-        </div>
-        <a href="assets/CV.pdf" class="btn-primary" target="_blank"
-          >Télécharger le PDF</a
-        >
-        <iframe
-          src="assets/CV.pdf"
-          style="width: 80%; height: 400px; margin-top: 2rem; border: none"
-        ></iframe>
-      </section>
+    <!-- PAGE 8 — CV DÉTAILLÉ -------------------------------------------- -->
+    <section class="section" id="cv">
+      <h2>CV détaillé</h2>
+      <iframe
+        src="assets/CV.pdf"
+        style="width: 80%; height: 500px; border: none; border-radius: 1rem"
+      ></iframe>
+      <br />
+      <a
+        href="assets/CV.pdf"
+        download
+        class="hover-zoom"
+        style="
+          display: inline-block;
+          margin-top: 1rem;
+          padding: 1rem 2rem;
+          background: var(--accent);
+          color: #ffffff;
+          border-radius: 0.75rem;
+          text-decoration: none;
+        "
+        >Télécharger le PDF</a
+      >
+    </section>
 
-      <!-- PAGE 9 — CALL TO ACTION FINAL -->
-      <section class="section" id="cta" data-anchor="cta">
-        <h2>Prêt à booster vos données&nbsp;?</h2>
-        <form class="contact-form" id="contact-form">
-          <input type="text" name="name" placeholder="Nom" required />
-          <input type="email" name="email" placeholder="Email" required />
-          <textarea name="need" rows="3" placeholder="Votre besoin" required></textarea>
-          <button type="submit" class="btn-primary">Envoyer</button>
-        </form>
-        <p class="success-message" id="success-message">
-          Merci pour votre message ! Je vous recontacte rapidement.
+    <!-- PAGE 9 — CALL-TO-ACTION FINAL ----------------------------------- -->
+    <section class="section" id="cta">
+      <h2>Contactez-moi</h2>
+      <form id="contactForm">
+        <input type="text" name="nom" placeholder="Nom" required />
+        <input type="email" name="email" placeholder="E-mail" required />
+        <textarea
+          name="besoin"
+          rows="4"
+          placeholder="Votre besoin"
+        ></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+      <br />
+      <a
+        href="https://calendly.com/votre-calendly"
+        target="_blank"
+        style="text-decoration: underline"
+        >Planifier un appel Calendly</a
+      >
+    </section>
+
+    <!-- PAGE 10 — FOOTER / MENTIONS ------------------------------------- -->
+    <section class="section" id="footer">
+      <footer class="fade-in">
+        <p>© 2025 Votre Nom. Tous droits réservés.</p>
+        <p>
+          <a href="#mentions">Mentions légales</a> |
+          <a href="#cookies">Politique cookies</a> |
+          <a href="https://linkedin.com/in/votreprofil" target="_blank">LinkedIn</a>
         </p>
-        <p style="margin-top: 1.5rem">
-          <a href="https://calendly.com/votre-compte" target="_blank"
-            >Prendre un rendez‑vous Calendly</a
-          >
-          ·
-          <a href="https://linkedin.com/in/votreprofil" target="_blank"
-            >LinkedIn</a
-          >
-        </p>
-      </section>
+      </footer>
+    </section>
+  </div>
 
-      <!-- PAGE 10 — FOOTER / MENTIONS (semi-page) -->
-      <section class="section" id="footer" data-anchor="footer">
-        <footer>
-          <p>© 2025 Votre Nom. Tous droits réservés.</p>
-          <p style="margin-top: 0.5rem">
-            <a href="#">Mentions légales</a> ·
-            <a href="#">Politique cookies</a>
-          </p>
-          <p style="margin-top: 0.5rem">
-            <a href="https://linkedin.com/in/votreprofil" target="_blank"
-              >LinkedIn</a
-            >
-          </p>
-        </footer>
-      </section>
-    </div>
+  <!-- ---------- Popover Template ---------- -->
+  <div id="popoverTemplate" class="popover">
+    <span class="popover-close">&times;</span>
+    <div id="popoverContent">Exemple</div>
+  </div>
 
-    <!-- JS Libraries -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js"
-      integrity="sha512-9AnndwEkgRfGYoJXcFiPRGUuHNGiNxVv1s6LAx31kz3R+oY5tRPGPuvLw0Q2qIhxpV+Q/Rq35tPHiHhB9Y7GWQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.umd.js"
-      integrity="sha512-BUx4qEC+5aPko2ThP4+12pEKKy7SNjma0uvnJOMUY/koZNKXH8Ds25HoyOdkYLM5ZzS0savDmNwoZRP+v0RBsg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"
-      integrity="sha512-ylcYTi9eW0Uv4bcXvVjJnHPmEvFn4i/0o5fZr4C3iOm7GeYSU9KODmVhYpiPHKXX89jJyJqdqE9Xm6hE6tn2cQ=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+  <!-- ---------- Scripts ---------- -->
+  <script src="https://cdn.jsdelivr.net/npm/fullpage.js@4.0.21/dist/fullpage.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/countup.js@2.6.2/dist/countUp.umd.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <!-- Main Script -->
-    <script>
-      // FullPage init
-      const fp = new fullpage("#fullpage", {
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      /* ----------------------------- fullPage.js ----------------------------- */
+      new fullpage("#fullpage", {
+        autoScrolling: true,
+        navigation: true,
         anchors: [
           "hero",
           "impact",
           "expertise",
-          "mission1",
-          "mission2",
+          "portfolio1",
+          "portfolio2",
           "testimonials",
           "hobbies",
           "cv",
           "cta",
           "footer",
         ],
-        navigation: true,
-        scrollOverflow: true,
-        onLeave: (origin, destination, direction) => {
-          if (destination.anchor === "impact") {
-            startCounters();
-          }
-        },
+        scrollingSpeed: 800,
       });
 
-      // KPI Counters
-      let countersStarted = false;
-      function startCounters() {
-        if (countersStarted) return;
-        document.querySelectorAll(".kpi").forEach((el) => {
-          const target = +el.dataset.count;
-          const countUp = new window.CountUp(el, target, {
-            duration: 2,
-            suffix: target === 22 ? "%" : "" /* example */,
+      /* ------------------------------ KPI counters --------------------------- */
+      const counters = document.querySelectorAll(".kpi");
+      function animateCounters() {
+        counters.forEach((el) => {
+          if (el.dataset.animated) return;
+          const target = parseFloat(el.dataset.target);
+          const countUp = new CountUp.CountUp(el, target, {
+            suffix: el.dataset.suffix || "",
           });
           if (!countUp.error) {
             countUp.start();
+            el.dataset.animated = "true";
           }
         });
-        countersStarted = true;
       }
-
-      // Expertise popovers
-      const tagCloud = document.getElementById("tag-cloud");
-      const popover = document.createElement("div");
-      popover.classList.add("popover");
-      document.body.appendChild(popover);
-
-      tagCloud.addEventListener("click", (e) => {
-        if (e.target.classList.contains("tag")) {
-          const skill = e.target.dataset.skill;
-          popover.innerHTML = `<h3>${skill}</h3><p>Exemple de projet mettant en œuvre ${skill}. Cliquez n'importe où pour fermer.</p>`;
-          popover.classList.add("active");
+      fullpage_api.on("afterLoad", function (origin, destination) {
+        if (destination.anchor === "impact") {
+          animateCounters();
         }
       });
 
-      popover.addEventListener("click", () => popover.classList.remove("active"));
-
-      // Swiper testimonials
+      /* ----------------------------- Swiper carousel ------------------------- */
       new Swiper(".mySwiper", {
-        autoplay: {
-          delay: 5000,
-        },
         loop: true,
+        autoplay: {
+          delay: 4000,
+        },
+        allowTouchMove: false,
       });
 
-      // Contact form
-      const form = document.getElementById("contact-form");
-      const successMsg = document.getElementById("success-message");
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        successMsg.style.display = "block";
-        form.reset();
+      /* --------------------------- Skill tag popover ------------------------- */
+      const popover = document.getElementById("popoverTemplate");
+      document.getElementById("skills").addEventListener("click", (e) => {
+        if (e.target.classList.contains("tag")) {
+          document.getElementById("popoverContent").textContent =
+            "Exemple de projet " + e.target.dataset.skill;
+          popover.classList.add("active");
+        }
       });
-    </script>
-  </body>
+      popover.querySelector(".popover-close").addEventListener("click", () =>
+        popover.classList.remove("active")
+      );
+
+      /* --------------------------- Parallax hobbies -------------------------- */
+      const parallaxImgs = document.querySelectorAll(".parallax-img");
+      window.addEventListener("scroll", () => {
+        parallaxImgs.forEach((img) => {
+          const speed = 0.1;
+          const offset = img.getBoundingClientRect().top * speed;
+          img.style.transform = `translateY(${offset}px)`;
+        });
+      });
+
+      /* ------------------------------ Footer fade-in ------------------------- */
+      const footerFade = document.querySelector("footer");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              footerFade.classList.add("in-view");
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+      observer.observe(footerFade);
+
+      /* --------------------------- Contact form UX --------------------------- */
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Merci pour votre message !");
+          this.reset();
+        });
+    });
+  </script>
+</body>
 </html>
