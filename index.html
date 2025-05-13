@@ -2,20 +2,30 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CV – Data Scientist</title>
+    <title>CV – Résoudre vos défis data</title>
 
-    <!-- FullPage.js CDN -->
+    <!-- FullPage.js core -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css"
-      integrity="sha512-9zHto9vJIWi9W476zuwepwlQXAtIG6pG0uuh0IZ2R0jwBu4+yXtNH9/hdRBJ0t1yPPRptVdMjvP7mLFzprVmcg=="
+      integrity="sha512-Q2qQqG0oNSmx+dLU7pjLvzIUIWdM9nc7oFNLkzY4roHpDvfDnwI+7QfUKoZtpKE+LZkTTneHKfxKV/Ivv9bl9w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Swiper for carousels -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css"
+      integrity="sha512-m2yIp3jxEV6OPu7w3GJdaD+8JGcyqCQDMcqFmFhH+LrVTo1GiFTS00kLfMv4RX3HxZomXBxRSkvrfPXA+44l3A=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
 
     <style>
-      /* ===== RESET & BASE ===== */
+      /* ----- RESET & GLOBAL ----- */
       *,
       *::before,
       *::after {
@@ -23,66 +33,58 @@
         margin: 0;
         padding: 0;
       }
+
       body {
-        font-family: "Inter", system-ui, sans-serif;
-        color: #111;
-        background: #fff;
-        line-height: 1.4;
+        font-family: "Inter", sans-serif;
+        background: #ffffff;
+        color: #111827;
         overflow: hidden; /* handled by fullPage.js */
       }
 
       h1,
       h2,
-      h3 {
+      h3,
+      h4 {
         font-weight: 700;
       }
 
-      .section {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-        text-align: center;
+      a {
+        color: inherit;
+        text-decoration: none;
       }
 
-      /* ===== GENERIC INTERACTIONS ===== */
-      img.hover-scale {
-        transition: transform 0.35s ease;
+      img {
+        transition: transform 0.3s ease;
       }
-      img.hover-scale:hover {
+
+      img:hover {
         transform: scale(1.05);
       }
 
-      /* Scroll prompt arrow */
-      .scroll-down {
-        position: absolute;
-        bottom: 2rem;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 2rem;
-        animation: bounce 2s infinite;
+      .section {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+      }
+
+      .btn-primary {
+        background: #111827;
+        color: #fff;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
         cursor: pointer;
-      }
-      @keyframes bounce {
-        0%,
-        20%,
-        50%,
-        80%,
-        100% {
-          transform: translate(-50%, 0);
-        }
-        40% {
-          transform: translate(-50%, -12px);
-        }
-        60% {
-          transform: translate(-50%, -6px);
-        }
+        transition: background 0.3s ease;
       }
 
-      /* ===== PAGE‑SPECIFIC STYLES ===== */
+      .btn-primary:hover {
+        background: #4b5563;
+      }
 
+      /* ----- PAGE SPECIFIC ----- */
       /* HERO */
       #hero video {
         position: absolute;
@@ -93,44 +95,79 @@
         object-fit: cover;
         z-index: -1;
       }
-      #hero h1 {
-        font-size: clamp(2rem, 6vw, 4rem);
-        color: #fff;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+
+      #hero .overlay {
+        backdrop-filter: brightness(0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
       }
 
-      /* KPI COUNTERS */
-      .kpi-wrapper {
+      #hero h1 {
+        font-size: 3rem;
+        color: #ffffff;
+        margin-bottom: 2rem;
+      }
+
+      .scroll-prompt {
+        position: absolute;
+        bottom: 2rem;
+        animation: bounce 2s infinite;
+        font-size: 0.9rem;
+        color: #ffffff;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      /* IMPACT NUMBERS */
+      .kpi-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 2rem;
-        max-width: 900px;
         width: 100%;
-      }
-      .kpi {
-        font-size: 2rem;
-        font-weight: 600;
-      }
-      .kpi span {
-        font-size: 3rem;
-        color: #2563eb;
+        max-width: 900px;
       }
 
-      /* SKILL TAGS */
-      .skills {
+      .kpi {
+        font-size: 2.5rem;
+        font-weight: 800;
+      }
+
+      .kpi-label {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: #6b7280;
+      }
+
+      /* EXPERTISE TAGS */
+      .tag-cloud {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem;
-        max-width: 800px;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
       }
-      .skill-tag {
-        padding: 0.5rem 1rem;
+
+      .tag {
         background: #f3f4f6;
+        padding: 0.6rem 1rem;
         border-radius: 9999px;
         cursor: pointer;
-        transition: background 0.25s;
+        transition: background 0.3s;
       }
-      .skill-tag:hover {
+
+      .tag:hover {
         background: #e5e7eb;
       }
 
@@ -139,125 +176,151 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        background: #fff;
-        border-radius: 12px;
-        max-width: 440px;
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         width: 90%;
-        padding: 1.5rem;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        z-index: 9999;
-      }
-      .popover button {
-        margin-top: 1rem;
-        background: #2563eb;
-        color: #fff;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-      }
-
-      /* LIGHTBOX */
-      #lightbox {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.8);
+        max-width: 400px;
         display: none;
-        align-items: center;
-        justify-content: center;
-        z-index: 9998;
-      }
-      #lightbox iframe {
-        width: 80vw;
-        height: 80vh;
-        border: none;
-        border-radius: 12px;
-        background: #fff;
+        z-index: 100;
       }
 
-      /* CAROUSEL SIMPLE */
-      .carousel {
-        width: 80vw;
-        max-width: 900px;
-        overflow: hidden;
+      .popover.active {
+        display: block;
       }
-      .carousel-track {
+
+      /* PORTFOLIO */
+      .portfolio-grid {
         display: flex;
-        transition: transform 0.6s ease;
-      }
-      .carousel-item {
-        min-width: 100%;
-        padding: 1rem;
+        flex-direction: column;
+        gap: 1.5rem;
+        max-width: 800px;
       }
 
-      /* PARALLAX HOBBIES */
-      .hobby-card {
+      .portfolio-grid img {
+        width: 100%;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      /* TESTIMONIALS */
+      .swiper {
+        width: 100%;
+        max-width: 600px;
+      }
+
+      .testimonial-quote {
+        font-style: italic;
+        margin: 1rem 0;
+        line-height: 1.4;
+      }
+
+      /* HOBBIES */
+      .hobby {
         position: relative;
         overflow: hidden;
-        border-radius: 16px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-        width: 300px;
-        height: 220px;
+        border-radius: 0.75rem;
       }
-      .hobby-card img {
-        position: absolute;
-        top: 0;
-        left: 0;
+
+      .hobby img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.35s ease;
-      }
-      .hobby-card:hover img {
         transform: scale(1.1);
-      }
-      .hobby-card span {
-        position: absolute;
-        bottom: 12px;
-        left: 12px;
-        background: rgba(255, 255, 255, 0.8);
-        padding: 0.25rem 0.5rem;
-        border-radius: 6px;
-        font-size: 0.9rem;
+        transition: transform 1.5s ease;
       }
 
-      /* CTA FORM */
-      form {
-        display: grid;
+      .fp-viewing-hobbies .hobby img {
+        transform: scale(1);
+      }
+
+      .hobby-label {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* CV TIMELINE */
+      .timeline {
+        position: relative;
+        margin: 2rem auto;
+        max-width: 600px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 4px;
+        height: 100%;
+        background: #e5e7eb;
+      }
+
+      .timeline-item {
+        position: relative;
+        width: 50%;
+        padding: 1rem 2rem;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: 50%;
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        top: 1.2rem;
+        right: -8px;
+        width: 16px;
+        height: 16px;
+        background: #111827;
+        border-radius: 50%;
+      }
+
+      .timeline-item:nth-child(even)::before {
+        left: -8px;
+      }
+
+      /* CONTACT FORM */
+      .contact-form {
+        display: flex;
+        flex-direction: column;
         gap: 1rem;
         width: 100%;
-        max-width: 480px;
+        max-width: 400px;
       }
-      input,
-      textarea {
-        width: 100%;
-        padding: 0.75rem 1rem;
+
+      .contact-form input,
+      .contact-form textarea {
+        padding: 0.8rem 1rem;
         border: 1px solid #d1d5db;
-        border-radius: 8px;
+        border-radius: 0.5rem;
         font-size: 1rem;
+        resize: vertical;
       }
-      button.cta {
-        background: #2563eb;
-        color: #fff;
+
+      .success-message {
+        display: none;
+        margin-top: 1rem;
+        color: #16a34a;
         font-weight: 600;
-        padding: 0.75rem 1rem;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background 0.25s;
-      }
-      button.cta:hover {
-        background: #1e40af;
       }
 
       /* FOOTER */
       footer {
-        font-size: 0.85rem;
-        opacity: 0;
-        transition: opacity 1s ease;
-      }
-      footer.visible {
-        opacity: 1;
+        font-size: 0.9rem;
+        color: #6b7280;
       }
     </style>
   </head>
@@ -267,158 +330,232 @@
       <!-- PAGE 1 — HERO -->
       <section class="section" id="hero" data-anchor="hero">
         <video
-          src="assets/hero.mp4"
-          class="hover-scale"
+          src="assets/hero-video.mp4"
           autoplay
-          muted
           loop
+          muted
           playsinline
         ></video>
-        <h1>Je transforme vos données en décisions</h1>
-        <div class="scroll-down">⌄</div>
+        <div class="overlay"></div>
+        <h1>Résoudre vos défis data</h1>
+        <div class="scroll-prompt">▼ Faites défiler</div>
       </section>
 
       <!-- PAGE 2 — IMPACT CHIFFRÉ -->
       <section class="section" id="impact" data-anchor="impact">
-        <h2>Impact chiffré</h2>
-        <div class="kpi-wrapper">
-          <div class="kpi"><span class="counter" data-target="22">0</span>% de CA</div>
-          <div class="kpi"><span class="counter" data-target="300">0</span> h reporting automatisé</div>
-          <div class="kpi"><span class="counter" data-target="15">0</span> pays couverts</div>
+        <h2>Impact mesurable</h2>
+        <div class="kpi-container">
+          <div>
+            <div class="kpi" data-count="22">0</div>
+            <div class="kpi-label">+% de CA</div>
+          </div>
+          <div>
+            <div class="kpi" data-count="300">0</div>
+            <div class="kpi-label">heures de reporting automatisé</div>
+          </div>
+          <div>
+            <div class="kpi" data-count="8">0</div>
+            <div class="kpi-label">projets livrés</div>
+          </div>
         </div>
       </section>
 
       <!-- PAGE 3 — EXPERTISE & DIPLÔME -->
       <section class="section" id="expertise" data-anchor="expertise">
+        <h2>Expertise & diplôme</h2>
         <img
           src="assets/diploma.jpg"
-          alt="Photo diplôme"
-          class="hover-scale"
-          style="width: 160px; border-radius: 12px; margin-bottom: 1rem"
+          alt="Diplôme"
+          style="max-width: 200px; border-radius: 0.75rem; margin-top: 1rem"
         />
-        <h3>Master Data Science – ENSAI (2021)</h3>
-        <p>Cliquez sur une compétence pour voir un exemple</p>
-        <div class="skills" style="margin-top: 1rem">
-          <span class="skill-tag" data-example="Prévision des ventes avec Prophet">Python</span>
-          <span class="skill-tag" data-example="Optimisation requêtes entrepôt">SQL</span>
-          <span class="skill-tag" data-example="Dashboard RH en temps réel">Power&nbsp;BI</span>
-          <span class="skill-tag" data-example="Scraping données e‑commerce">Web&nbsp;Scraping</span>
+        <p>Ingénieur Data – Polytech, 2021</p>
+
+        <div class="tag-cloud" id="tag-cloud">
+          <span class="tag" data-skill="Python">Python</span>
+          <span class="tag" data-skill="SQL">SQL</span>
+          <span class="tag" data-skill="Power BI">Power BI</span>
+          <span class="tag" data-skill="ML">Machine Learning</span>
+          <span class="tag" data-skill="Docker">Docker</span>
         </div>
       </section>
 
-      <!-- PAGE 4 — PORTFOLIO: MISSION 1 -->
+      <!-- PAGE 4 — PORTFOLIO : MISSION 1 -->
       <section class="section" id="mission1" data-anchor="mission1">
-        <h2>Projet 1 – Optimisation Supply Chain</h2>
-        <p>
-          Contexte client → Problème → Approche → Résultat<br />
-          <button class="cta" data-demo="https://example.com/demo1">Voir la démo</button>
-        </p>
-        <img src="assets/dashboard1.png" alt="Dashboard 1" class="hover-scale" style="max-width: 600px; margin-top: 1rem;" />
+        <h2>Mission 1 : Optimisation supply chain</h2>
+        <div class="portfolio-grid">
+          <p>
+            <strong>Contexte :</strong> Retail – prévision des ventes
+            <br /><strong>Problème :</strong> rupture de stock récurrente
+            <br /><strong>Approche :</strong> modèle ARIMA + dashboard Power BI
+            <br /><strong>Résultat :</strong> -15 % stock dormant, +8 % ventes
+          </p>
+          <img
+            src="assets/dashboard1.png"
+            alt="Capture dashboard"
+          />
+        </div>
       </section>
 
-      <!-- PAGE 5 — PORTFOLIO: MISSION 2 -->
+      <!-- PAGE 5 — PORTFOLIO : MISSION 2 -->
       <section class="section" id="mission2" data-anchor="mission2">
-        <h2>Projet 2 – Prédiction Churn SaaS</h2>
-        <p>
-          Contexte client → Problème → Approche → Résultat<br />
-          <button class="cta" data-demo="https://example.com/demo2">Voir la démo</button>
-        </p>
-        <img src="assets/dashboard2.png" alt="Dashboard 2" class="hover-scale" style="max-width: 600px; margin-top: 1rem;" />
+        <h2>Mission 2 : Prédiction churn</h2>
+        <div class="portfolio-grid">
+          <p>
+            <strong>Contexte :</strong> SaaS B2B – fidélisation client
+            <br /><strong>Problème :</strong> churn 12 %
+            <br /><strong>Approche :</strong> gradient boosting, SHAP explanations
+            <br /><strong>Résultat :</strong> churn réduit à 8 %, +1 M€ revenus
+          </p>
+          <img
+            src="assets/dashboard2.png"
+            alt="Capture dashboard"
+          />
+        </div>
       </section>
 
-      <!-- PAGE 6 — AVIS & TEMOIGNAGES -->
+      <!-- PAGE 6 — AVIS & TÉMOIGNAGES -->
       <section class="section" id="testimonials" data-anchor="testimonials">
-        <h2>Témoignages</h2>
-        <video src="assets/client_testimonial.mp4" controls style="max-width: 720px"></video>
-        <div class="carousel" style="margin-top: 2rem">
-          <div class="carousel-track">
-            <div class="carousel-item">
-              « Une collaboration fluide et un impact mesurable » ⭐⭐⭐⭐⭐
+        <h2>Avis & témoignages</h2>
+        <video
+          src="assets/client-testimonial.mp4"
+          controls
+          style="max-width: 500px; width: 100%; border-radius: 0.75rem"
+        ></video>
+
+        <div class="swiper mySwiper" style="margin-top: 2rem">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <p class="testimonial-quote">
+                « Une réactivité et un sens de la donnée impressionnants ! »
+              </p>
+              ⭐⭐⭐⭐⭐
             </div>
-            <div class="carousel-item">
-              « +22 % de CA en 3 mois grâce à son modèle prédictif » ⭐⭐⭐⭐⭐
+            <div class="swiper-slide">
+              <p class="testimonial-quote">
+                « Nos reporting hebdo sont passés de 3 h à 5 min. »
+              </p>
+              ⭐⭐⭐⭐⭐
             </div>
           </div>
         </div>
       </section>
 
-      <!-- PAGE 7 — HOBBIES -->
+      <!-- PAGE 7 — HOBBIES = SOFT SKILLS -->
       <section class="section" id="hobbies" data-anchor="hobbies">
-        <h2>Hobbies & Soft Skills</h2>
-        <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
-          <div class="hobby-card parallax">
-            <img src="assets/trail.jpg" alt="Trail" />
-            <span>Trail running → Persévérance</span>
-          </div>
-          <div class="hobby-card parallax">
-            <img src="assets/photo.jpg" alt="Photo" />
-            <span>Photographie urbaine → Sens du détail</span>
-          </div>
-          <div class="hobby-card parallax">
-            <img src="assets/iot.jpg" alt="IoT" />
-            <span>Bricolage IoT → Curiosité technique</span>
-          </div>
+        <h2>Hobbies & soft skills</h2>
+        <div
+          class="hobby"
+          style="max-width: 600px; height: 300px; margin-top: 1.5rem"
+        >
+          <img src="assets/trail.jpg" alt="Trail" />
+          <span class="hobby-label">Trail running → persévérance</span>
+        </div>
+        <div
+          class="hobby"
+          style="max-width: 600px; height: 300px; margin-top: 1.5rem"
+        >
+          <img src="assets/photo.jpg" alt="Photographie" />
+          <span class="hobby-label">Photographie urbaine → sens du détail</span>
+        </div>
+        <div
+          class="hobby"
+          style="max-width: 600px; height: 300px; margin-top: 1.5rem"
+        >
+          <img src="assets/iot.jpg" alt="IoT" />
+          <span class="hobby-label">Bricolage IoT → curiosité technique</span>
         </div>
       </section>
 
-      <!-- PAGE 8 — CV DETAILLE -->
+      <!-- PAGE 8 — CV DÉTAILLÉ -->
       <section class="section" id="cv" data-anchor="cv">
-        <h2>Parcours détaillé</h2>
-        <iframe src="assets/cv.pdf" style="width: 80vw; height: 70vh; border: none"></iframe>
-        <p style="margin-top: 1rem">
-          <a href="assets/cv.pdf" download>📄 Télécharger le PDF</a>
-        </p>
-      </section>
-
-      <!-- PAGE 9 — CALL TO ACTION -->
-      <section class="section" id="cta" data-anchor="cta">
-        <h2>Prêt à booster vos données ?</h2>
-        <form
-          action="https://formspree.io/f/your‑form‑id" method="POST" id="contactForm"
+        <h2>CV détaillé</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <h4>2022 – Aujourd'hui</h4>
+            <p>Data Scientist, Freelance</p>
+          </div>
+          <div class="timeline-item">
+            <h4>2021 – 2022</h4>
+            <p>Data Analyst, FinTech</p>
+          </div>
+          <div class="timeline-item">
+            <h4>2019 – 2021</h4>
+            <p>Stage & alternance, Retail Analytics</p>
+          </div>
+        </div>
+        <a href="assets/CV.pdf" class="btn-primary" target="_blank"
+          >Télécharger le PDF</a
         >
+        <iframe
+          src="assets/CV.pdf"
+          style="width: 80%; height: 400px; margin-top: 2rem; border: none"
+        ></iframe>
+      </section>
+
+      <!-- PAGE 9 — CALL TO ACTION FINAL -->
+      <section class="section" id="cta" data-anchor="cta">
+        <h2>Prêt à booster vos données&nbsp;?</h2>
+        <form class="contact-form" id="contact-form">
           <input type="text" name="name" placeholder="Nom" required />
-          <input type="email" name="email" placeholder="E‑mail" required />
-          <textarea
-            name="need"
-            placeholder="Décrivez votre besoin…"
-            rows="4"
-          ></textarea>
-          <button type="submit" class="cta">Envoyer</button>
+          <input type="email" name="email" placeholder="Email" required />
+          <textarea name="need" rows="3" placeholder="Votre besoin" required></textarea>
+          <button type="submit" class="btn-primary">Envoyer</button>
         </form>
-        <p style="margin-top: 1rem">
-          <a href="https://calendly.com/votre‑lien">📅 Prendre RDV sur Calendly</a>
+        <p class="success-message" id="success-message">
+          Merci pour votre message ! Je vous recontacte rapidement.
+        </p>
+        <p style="margin-top: 1.5rem">
+          <a href="https://calendly.com/votre-compte" target="_blank"
+            >Prendre un rendez‑vous Calendly</a
+          >
+          ·
+          <a href="https://linkedin.com/in/votreprofil" target="_blank"
+            >LinkedIn</a
+          >
         </p>
       </section>
 
-      <!-- PAGE 10 — FOOTER / MENTIONS -->
-      <footer class="section" id="mentions" data-anchor="footer">
-        <h2>Mentions légales & Cookies</h2>
-        <p style="max-width: 600px; margin: 1rem auto">
-          Ce site n'utilise aucun cookie traçant. Les données du formulaire sont
-          traitées conformément au RGPD.
-        </p>
-        <p>© 2025 • <a href="https://linkedin.com/in/votre‑profil">LinkedIn</a></p>
-      </footer>
+      <!-- PAGE 10 — FOOTER / MENTIONS (semi-page) -->
+      <section class="section" id="footer" data-anchor="footer">
+        <footer>
+          <p>© 2025 Votre Nom. Tous droits réservés.</p>
+          <p style="margin-top: 0.5rem">
+            <a href="#">Mentions légales</a> ·
+            <a href="#">Politique cookies</a>
+          </p>
+          <p style="margin-top: 0.5rem">
+            <a href="https://linkedin.com/in/votreprofil" target="_blank"
+              >LinkedIn</a
+            >
+          </p>
+        </footer>
+      </section>
     </div>
 
-    <!-- Lightbox modal -->
-    <div id="lightbox"></div>
-
-    <!-- FullPage.js -->
+    <!-- JS Libraries -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js"
-      integrity="sha512-7STG07OOMv4souKobSfO/nfsr2jZNZAdXa43tYXhiq5zTKsFr6lht7AU9/2WNZaofdN+8Jgm9nu72mGTsxT+LQ=="
+      integrity="sha512-9AnndwEkgRfGYoJXcFiPRGUuHNGiNxVv1s6LAx31kz3R+oY5tRPGPuvLw0Q2qIhxpV+Q/Rq35tPHiHhB9Y7GWQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.umd.js"
+      integrity="sha512-BUx4qEC+5aPko2ThP4+12pEKKy7SNjma0uvnJOMUY/koZNKXH8Ds25HoyOdkYLM5ZzS0savDmNwoZRP+v0RBsg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"
+      integrity="sha512-ylcYTi9eW0Uv4bcXvVjJnHPmEvFn4i/0o5fZr4C3iOm7GeYSU9KODmVhYpiPHKXX89jJyJqdqE9Xm6hE6tn2cQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
 
+    <!-- Main Script -->
     <script>
-      /* ================================
-       * FULLPAGE INIT
-       * ==============================*/
-      new fullpage("#fullpage", {
-        autoScrolling: true,
-        navigation: true,
+      // FullPage init
+      const fp = new fullpage("#fullpage", {
         anchors: [
           "hero",
           "impact",
@@ -431,106 +568,63 @@
           "cta",
           "footer",
         ],
+        navigation: true,
         scrollOverflow: true,
+        onLeave: (origin, destination, direction) => {
+          if (destination.anchor === "impact") {
+            startCounters();
+          }
+        },
       });
 
-      /* ================================
-       * KPI COUNTERS
-       * ==============================*/
-      const counters = document.querySelectorAll(".counter");
-      const counterObserver = new IntersectionObserver(
-        (entries, obs) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const counter = entry.target;
-              const update = () => {
-                const target = +counter.dataset.target;
-                const value = +counter.innerText;
-                const inc = Math.ceil(target / 60);
-                if (value < target) {
-                  counter.innerText = value + inc;
-                  requestAnimationFrame(update);
-                } else {
-                  counter.innerText = target;
-                }
-              };
-              update();
-              obs.unobserve(counter);
-            }
+      // KPI Counters
+      let countersStarted = false;
+      function startCounters() {
+        if (countersStarted) return;
+        document.querySelectorAll(".kpi").forEach((el) => {
+          const target = +el.dataset.count;
+          const countUp = new window.CountUp(el, target, {
+            duration: 2,
+            suffix: target === 22 ? "%" : "" /* example */,
           });
+          if (!countUp.error) {
+            countUp.start();
+          }
+        });
+        countersStarted = true;
+      }
+
+      // Expertise popovers
+      const tagCloud = document.getElementById("tag-cloud");
+      const popover = document.createElement("div");
+      popover.classList.add("popover");
+      document.body.appendChild(popover);
+
+      tagCloud.addEventListener("click", (e) => {
+        if (e.target.classList.contains("tag")) {
+          const skill = e.target.dataset.skill;
+          popover.innerHTML = `<h3>${skill}</h3><p>Exemple de projet mettant en œuvre ${skill}. Cliquez n'importe où pour fermer.</p>`;
+          popover.classList.add("active");
+        }
+      });
+
+      popover.addEventListener("click", () => popover.classList.remove("active"));
+
+      // Swiper testimonials
+      new Swiper(".mySwiper", {
+        autoplay: {
+          delay: 5000,
         },
-        { threshold: 0.6 }
-      );
-      counters.forEach((c) => counterObserver.observe(c));
-
-      /* ================================
-       * SKILL POPOVERS
-       * ==============================*/
-      document.querySelectorAll(".skill-tag").forEach((tag) => {
-        tag.addEventListener("click", () => {
-          const pop = document.createElement("div");
-          pop.className = "popover";
-          pop.innerHTML = `<p>${tag.dataset.example}</p><button>Fermer</button>`;
-          document.body.appendChild(pop);
-          pop.querySelector("button").onclick = () => pop.remove();
-        });
+        loop: true,
       });
 
-      /* ================================
-       * LIGHTBOX DEMO
-       * ==============================*/
-      const lightbox = document.getElementById("lightbox");
-      document.querySelectorAll("[data-demo]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const src = btn.dataset.demo;
-          lightbox.innerHTML = `<iframe src="${src}"></iframe>`;
-          lightbox.style.display = "flex";
-        });
-      });
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) lightbox.style.display = "none";
-      });
-
-      /* ================================
-       * CAROUSEL (auto)
-       * ==============================*/
-      const track = document.querySelector(".carousel-track");
-      let slide = 0;
-      setInterval(() => {
-        slide = (slide + 1) % track.children.length;
-        track.style.transform = `translateX(-${100 * slide}%)`;
-      }, 4000);
-
-      /* ================================
-       * PARALLAX HOBBIES (light)
-       * ==============================*/
-      const hobbies = document.querySelectorAll(".parallax");
-      window.addEventListener("scroll", () => {
-        const offset = window.pageYOffset;
-        hobbies.forEach((h) => {
-          h.style.transform = `translateY(${offset * 0.15}px)`;
-        });
-      });
-
-      /* ================================
-       * FOOTER FADE-IN
-       * ==============================*/
-      const footer = document.querySelector("footer");
-      new IntersectionObserver(
-        (e) => {
-          if (e[0].isIntersecting) footer.classList.add("visible");
-        },
-        { threshold: 0.3 }
-      ).observe(footer);
-
-      /* ================================
-       * FORM SUCCESS MSG
-       * ==============================*/
-      const form = document.getElementById("contactForm");
+      // Contact form
+      const form = document.getElementById("contact-form");
+      const successMsg = document.getElementById("success-message");
       form.addEventListener("submit", (e) => {
-        setTimeout(() => {
-          alert("Merci ! Votre message a bien été envoyé.");
-        }, 100); // simulate
+        e.preventDefault();
+        successMsg.style.display = "block";
+        form.reset();
       });
     </script>
   </body>
