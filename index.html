@@ -87,33 +87,39 @@
       </div>
     </div>
   </section>
-  <section id="loisirs">
-    <h2>En dehors du travail</h2>
-    <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;align-items:center;max-width:1000px;width:100%;perspective:1000px;">
-      <div class="parallax-img"><img src="alpinisme.jpg" alt="Alpinisme"></div>
-      <div class="parallax-img"><img src="echec.png" alt="Échecs"></div>
-      <div class="parallax-img"><img src="lecture.jpg" alt="Lecture"></div>
-    </div>
-  </section>
-  <section id="cv-detaille" style="background:#f9f9f9;">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:2rem;max-width:900px;width:100%;margin:auto;padding:4rem 2rem;">
-      <h2>CV détaillé</h2>
-      <iframe src="CV.pdf#toolbar=0" style="width:100%;height:55vh;border:none;border-radius:1rem;box-shadow:0 10px 40px rgba(0,0,0,.05);"></iframe>
-      <a href="CV.pdf" download style="padding:.8rem 2rem;background:var(--accent);color:#fff;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.1);">Télécharger le CV</a>
-    </div>
-  </section>
-  <section id="contact-final" style="padding:4rem 2rem 2rem;">
-    <h2 style="margin-bottom:2rem;text-align:center;">Contact & Mentions légales</h2>
-    <p style="font-size:1.2rem;text-align:center;max-width:700px;margin:auto;opacity:.85;">Vous êtes une entreprise basée à <strong>Lyon</strong> ou <strong>Genève</strong> et mes services vous attirent ? Alors <strong>contactez-moi</strong> !</p>
-    <div class="fade-links">
-      <a href="https://calendly.com/adrienalvarez/call" target="_blank" style="padding:.8rem 2rem;background:var(--accent);color:#fff;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.1);">Prendre rendez-vous</a>
-      <a href="https://www.linkedin.com/in/adrien-alvarez-data-analyst/" target="_blank" style="padding:.8rem 2rem;background:#0077b5;color:#fff;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.1);">Voir mon LinkedIn</a>
-    </div>
-    <footer style="text-align:center;font-size:.9rem;opacity:.6;margin-top:2rem;">
-      <p><a href="#" style="text-decoration:underline;color:inherit;">Mentions légales</a> • <a href="#" style="text-decoration:underline;color:inherit;">Cookies</a></p>
-      <p>&copy; Adrien Alvarez — 2025. Tous droits réservés.</p>
-    </footer>
-  </section>
+  <section id="loisirs" style="height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; background: #fff;">
+  <h2>En dehors du travail</h2>
+  <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: center; max-width: 1000px; width: 100%; perspective: 1000px;">
+    <div class="parallax-img"><img src="alpinisme.jpg" alt="Alpinisme"></div>
+    <div class="parallax-img"><img src="echec.png" alt="Échecs"></div>
+    <div class="parallax-img"><img src="lecture.jpg" alt="Lecture"></div>
+  </div>
+</section>
+<section id="cv-detaille" style="height: 100vh; scroll-snap-align: start; background: #f9f9f9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; padding: 4rem 2rem;">
+  <h2 style="text-align: center;">CV détaillé</h2>
+  <iframe src="CV.pdf#toolbar=0" style="width: 100%; max-width: 800px; height: 55vh; border: none; border-radius: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.05);"></iframe>
+  <a href="CV.pdf" download style="padding: 0.8rem 2rem; background: var(--accent); color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">Télécharger le CV</a>
+</section>
+<section id="contact-final" style="height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 4rem 2rem; gap: 2rem; background: #fff;">
+  <h2 style="text-align: center;">Contact</h2>
+  <p style="font-size: 1.2rem; text-align: center; max-width: 700px; opacity: 0.85;">
+    Basé à <strong>Lyon</strong> ou <strong>Genève</strong> ? Si mon profil a retenu votre attention, c’est sûrement pour une bonne raison. Échangeons !
+  </p>
+  <div class="fade-links" style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease;">
+    <a href="https://calendly.com/adrienalvarez/call" target="_blank"
+       style="padding: 0.8rem 2rem; background-color: var(--accent); color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
+      Prendre rendez-vous
+    </a>
+    <a href="https://www.linkedin.com/in/adrien-alvarez-data-analyst/" target="_blank"
+       style="padding: 0.8rem 2rem; background-color: #0077b5; color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
+      Voir mon LinkedIn
+    </a>
+  </div>
+  <footer style="text-align: center; font-size: 0.9rem; opacity: 0.6; margin-top: 2rem;">
+    <p><a href="#" style="text-decoration: underline; color: inherit;">Mentions légales</a> • <a href="#" style="text-decoration: underline; color: inherit;">Cookies</a></p>
+    <p>&copy; Adrien Alvarez — 2025. Tous droits réservés.</p>
+  </footer>
+</section>
   <script>
     /* KPI counters */
     document.addEventListener('DOMContentLoaded',()=>{
