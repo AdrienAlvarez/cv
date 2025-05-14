@@ -1,372 +1,153 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>CV – Adrien Alvarez</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --fg: #111;
-      --bg: #fff;
-      --accent: #0066ff;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Inter", sans-serif;
-    }
-    html, body {
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      scroll-snap-type: y mandatory;
-      background: var(--bg);
-      color: var(--fg);
-    }
-    section {
-      height: 100vh;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      scroll-snap-align: start;
-      padding: 2rem;
-      position: relative;
-      gap: 2rem;
-      overflow: hidden;
-    }
-    h2 {
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -1px;
-      text-align: center;
-    }
-    .hover-scale {
-      transition: transform 0.35s ease;
-      will-change: transform;
-      border-radius: 1.25rem;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-    }
-    .hover-scale:hover {
-      transform: scale(1.05);
-    }
-    .kpi-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
-      width: 100%;
-      max-width: 900px;
-      text-align: center;
-    }
-    .kpi {
-      font-size: 3rem;
-      font-weight: 800;
-      transition: transform 0.3s ease;
-    }
-    .kpi:hover {
-      transform: scale(1.1);
-    }
-    .kpi-label {
-      margin-top: 0.5rem;
-      font-size: 1rem;
-      opacity: 0.7;
-    }
-    .portfolio-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      align-items: center;
-      justify-content: center;
-      max-width: 1000px;
-      width: 100%;
-    }
-    .portfolio-wrapper img {
-      height: auto;
-      border-radius: 1.25rem;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
-      object-fit: contain;
-    }
-    #img1 {
-      width: 300px;
-      max-width: 100%;
-    }
-    #img2 {
-      width: 700px;
-      max-width: 100%;
-    }
-    @media(min-width: 768px) {
-      .portfolio-wrapper {
-        flex-direction: row;
-      }
-    }
+    :root{--fg:#111;--bg:#fff;--accent:#06f}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Inter",sans-serif}
+    html,body{height:100%;scroll-behavior:smooth;scroll-snap-type:y mandatory;background:var(--bg);color:var(--fg)}
+    section{height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;padding:2rem;position:relative}
+    h2{font-size:2.5rem;font-weight:800;letter-spacing:-1px;text-align:center}
+    .hover-scale{transition:transform .35s;border-radius:1.25rem;box-shadow:0 10px 40px rgba(0,0,0,.06)}
+    .hover-scale:hover{transform:scale(1.05)}
+    /* KPI */
+    .kpi-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;max-width:900px;width:100%;text-align:center}
+    .kpi{font-size:3rem;font-weight:800;transition:transform .3s}
+    .kpi:hover{transform:scale(1.1)}
+    .kpi-label{margin-top:.5rem;font-size:1rem;opacity:.7}
+    /* Portfolio */
+    .portfolio-wrapper{display:flex;gap:2rem;align-items:center;justify-content:center;padding:0 2rem;max-width:100%}
+    .portfolio-images{display:flex;gap:2rem;align-items:center;justify-content:center}
+    .portfolio-images img{max-height:340px;width:auto;border-radius:1.25rem;box-shadow:0 10px 40px rgba(0,0,0,.06);object-fit:contain}
+    .portfolio-btn{background:none;border:none;color:var(--accent);font-size:3rem;line-height:1;cursor:pointer;padding:0 .5rem;transition:transform .2s;user-select:none}
+    .portfolio-btn:hover{transform:scale(1.25)}
+    @media(max-width:767px){.portfolio-images{flex-direction:column}}
+    /* Parallax */
+    .parallax-img{width:300px;height:200px;overflow:hidden;border-radius:1.25rem;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    .parallax-img img{width:100%;height:100%;object-fit:cover;transform:translateZ(0);transition:transform .5s}
+    /* Fade links */
+    .fade-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(20px);transition:opacity .8s,transform .8s}
   </style>
 </head>
 <body>
-
   <section id="intro">
-    <video class="hover-scale" src="video.mp4" autoplay muted loop controls
-      style="width:90%;max-height:85vh;object-fit:cover;border-radius:1.25rem;"></video>
+    <video class="hover-scale" src="video.mp4" autoplay muted loop controls style="width:90%;max-height:85vh;object-fit:cover;"></video>
   </section>
-
-  <section id="impact" style="gap: 0;">
-    <div style="position: absolute; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem;">
-      <img src="logo-harvard.png" alt="Logo 1" style="width: 100px; height: 100px; object-fit: contain;" />
-      <img src="logo-esgi.png" alt="Logo 2" style="width: 100px; height: 100px; object-fit: contain;" />
+  <section id="impact">
+    <div style="position:absolute;top:1.5rem;right:1.5rem;display:flex;gap:1rem;">
+      <img src="logo-harvard.png" alt="Harvard" style="width:100px;height:100px;object-fit:contain;">
+      <img src="logo-esgi.png" alt="ESGI" style="width:100px;height:100px;object-fit:contain;">
     </div>
-
-    <a href="https://www.linkedin.com/posts/warmango_nouvelles-arriv%C3%A9es-warmango-ugcPost-7171081422907097088-jf9w?utm_source=share&utm_medium=member_desktop&rcm=ACoAADkRnRQBcVdcmN2EjZCRN4us7BlQJPn3Nx4" target="_blank" style="margin-bottom: 0.8rem;">
-      <img src="work-warmango.png" alt="Photo carrée" style="width: 200px; height: 200px; object-fit: cover; border-radius: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.1); cursor: pointer;" />
+    <a href="https://www.linkedin.com/posts/warmango_nouvelles-arriv%C3%A9es-warmango-ugcPost-7171081422907097088-jf9w?utm_source=share&utm_medium=member_desktop&rcm=ACoAADkRnRQBcVdcmN2EjZCRN4us7BlQJPn3Nx4" target="_blank" style="margin-bottom:.8rem;">
+      <img src="work-warmango.png" alt="Warmango" class="hover-scale" style="width:200px;height:200px;object-fit:cover;">
     </a>
-
-    <h2 style="margin-bottom: 0.2rem;">Adrien Alvarez</h2>
-    <p style="font-size: 1.2rem; opacity: 0.7; margin: 0;">Data Analyst</p>
-
-    <div class="kpi-container" style="margin-top: 3rem;">
-      <div>
-        <div class="kpi" data-target="20000">0</div>
-        <div class="kpi-label">Membres dans mon groupe "Data Scientist & Analyst France"</div>
-      </div>
-      <div>
-        <div class="kpi" data-target="150">0</div>
-        <div class="kpi-label">Pages de Dashboard crées pour aider à la prise de décision</div>
-      </div>
-      <div>
-        <div class="kpi" data-target="3">0</div>
-        <div class="kpi-label">Années d'études en Data Science</div>
-      </div>
-      <div>
-        <div class="kpi" data-target="2">0</div>
-        <div class="kpi-label">Années d'expérience en entreprise</div>
-      </div>
+    <h2 style="margin-bottom:.2rem;">Adrien Alvarez</h2>
+    <p style="font-size:1.2rem;opacity:.7;">Data Analyst</p>
+    <div class="kpi-container" style="margin-top:3rem;">
+      <div><div class="kpi" data-target="20000">0</div><div class="kpi-label">Membres dans mon groupe “Data Scientist & Analyst France”</div></div>
+      <div><div class="kpi" data-target="200">0</div><div class="kpi-label">Employés utilisent mes Dashboards</div></div>
+      <div><div class="kpi" data-target="150">0</div><div class="kpi-label">Pages de Dashboard créées pour aider à la décision</div></div>
+      <div><div class="kpi" data-target="2">0</div><div class="kpi-label">Années d’expérience en entreprise</div></div>
     </div>
   </section>
-
   <section id="portfolio">
     <h2>Portfolio</h2>
     <div class="portfolio-wrapper">
-      <img id="img1" src="logo-warmango.jpeg" alt="Logo projet" class="hover-scale" />
-      <img id="img2" src="dashboard-warmango.png" alt="Dashboard projet" class="hover-scale" />
+      <button id="prevProject" class="portfolio-btn" aria-label="Projet précédent">‹</button>
+      <div class="portfolio-images">
+        <img id="img1" src="logo-warmango.jpeg" alt="Logo Warmango" class="hover-scale">
+        <img id="img2" src="dashboard-warmango.png" alt="Dashboard Warmango" class="hover-scale">
+      </div>
+      <button id="nextProject" class="portfolio-btn" aria-label="Projet suivant">›</button>
     </div>
   </section>
-
-  <section id="avis-clients" style="background-color: #f9f9f9;">
+  <section id="avis-clients" style="background:#f9f9f9;">
     <h2>Avis Clients</h2>
-    <div style="display: flex; flex-direction: column; gap: 3rem; align-items: center; max-width: 1000px; width: 100%;">
-      <div style="display: flex; align-items: center; gap: 1.5rem; width: 100%; max-width: 800px;">
-        <img src="logo-lucas-maisse.jpeg" alt="Logo client 1" style="width: 80px; height: 80px; border-radius: 1rem; object-fit: cover;" />
-        <div style="flex: 1;">
-          <p style="font-size: 1.1rem; font-style: italic;">"Adrien a rejoint Warmango en tant que Data Analyst en alternance, et il a su se distinguer dès le départ par son sérieux et sa détermination. Sa maturité et son professionnalisme font de lui un jeune talent prometteur dans le domaine de la data..."</p>
-          <p style="color: gold; font-size: 1.5rem;">★★★★★</p>
+    <div style="display:flex;flex-direction:column;gap:3rem;align-items:center;max-width:1000px;width:100%;">
+      <div style="display:flex;align-items:center;gap:1.5rem;max-width:800px;width:100%;">
+        <img src="logo-lucas-maisse.jpeg" alt="Lucas Maisse" style="width:80px;height:80px;border-radius:1rem;object-fit:cover;">
+        <div style="flex:1;">
+          <p style="font-size:1.1rem;font-style:italic;">« Adrien a rejoint Warmango en tant que Data Analyst en alternance … »</p>
+          <p style="color:gold;font-size:1.5rem;">★★★★★</p>
         </div>
       </div>
-      <div style="display: flex; align-items: center; gap: 1.5rem; width: 100%; max-width: 800px;">
-        <img src="logo-simon-heilles.jpeg" alt="Logo client 2" style="width: 80px; height: 80px; border-radius: 1rem; object-fit: cover;" />
-        <div style="flex: 1;">
-          <p style="font-size: 1.1rem; font-style: italic;">"Je suis son évolution dans ce domaine depuis maintenant plusieurs années et c'est toujours un plaisir d'échanger avec lui. Je n'ai aucun doute sur le fait que d'ici peu, il ait réussi à devenir une référence dans le domaine de la data..."</p>
-          <p style="color: gold; font-size: 1.5rem;">★★★★★</p>
+      <div style="display:flex;align-items:center;gap:1.5rem;max-width:800px;width:100%;">
+        <img src="logo-simon-heilles.jpeg" alt="Simon Heilles" style="width:80px;height:80px;border-radius:1rem;object-fit:cover;">
+        <div style="flex:1;">
+          <p style="font-size:1.1rem;font-style:italic;">« Je suis son évolution depuis plusieurs années et c’est toujours un plaisir d’échanger avec lui … »</p>
+          <p style="color:gold;font-size:1.5rem;">★★★★★</p>
         </div>
       </div>
     </div>
   </section>
-
-  <section id="loisirs" style="background-color: #fff;">
+  <section id="loisirs">
     <h2>En dehors du travail</h2>
-    <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: center; max-width: 1000px; width: 100%; perspective: 1000px;">
-      <div class="parallax-img" style="width: 300px; height: 200px; overflow: hidden; border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
-        <img src="alpinisme.jpg" alt="Alpinisme" style="width: 100%; height: 100%; object-fit: cover; transform: translateZ(0); transition: transform 0.5s ease;" />
-      </div>
-      <div class="parallax-img" style="width: 300px; height: 200px; overflow: hidden; border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
-        <img src="echec.png" alt="Echec" style="width: 100%; height: 100%; object-fit: cover; transform: translateZ(0); transition: transform 0.5s ease;" />
-      </div>
-      <div class="parallax-img" style="width: 300px; height: 200px; overflow: hidden; border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
-        <img src="lecture.jpg" alt="Lecture" style="width: 100%; height: 100%; object-fit: cover; transform: translateZ(0); transition: transform 0.5s ease;" />
-      </div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;align-items:center;max-width:1000px;width:100%;perspective:1000px;">
+      <div class="parallax-img"><img src="alpinisme.jpg" alt="Alpinisme"></div>
+      <div class="parallax-img"><img src="echec.png" alt="Échecs"></div>
+      <div class="parallax-img"><img src="lecture.jpg" alt="Lecture"></div>
     </div>
   </section>
-
-  <section id="cv-detaille" style="background-color: #f9f9f9;">
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; width: 100%; max-width: 900px; margin: auto; padding: 4rem 2rem;">
-      <h2 style="text-align: center;">CV détaillé</h2>
-  
-      <iframe 
-        src="CV.pdf#toolbar=0" 
-        style="width: 100%; height: 55vh; border: none; border-radius: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.05);"
-      ></iframe>
-  
-      <a href="CV.pdf" download 
-         style="padding: 0.8rem 2rem; background-color: var(--accent); color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: background 0.3s ease;">
-        Télécharger le CV
-      </a>
+  <section id="cv-detaille" style="background:#f9f9f9;">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:2rem;max-width:900px;width:100%;margin:auto;padding:4rem 2rem;">
+      <h2>CV détaillé</h2>
+      <iframe src="CV.pdf#toolbar=0" style="width:100%;height:55vh;border:none;border-radius:1rem;box-shadow:0 10px 40px rgba(0,0,0,.05);"></iframe>
+      <a href="CV.pdf" download style="padding:.8rem 2rem;background:var(--accent);color:#fff;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.1);">Télécharger le CV</a>
     </div>
   </section>
-  
-  
-  
-  
-  
-  
-  
-  <section id="contact-final" style="background-color: #fff; padding: 4rem 2rem 2rem;">
-    <h2 style="text-align: center; margin-bottom: 2rem;">Contact & Mentions légales</h2>
-  
-    <div style="width: 100%; display: flex; justify-content: center;">
-      <p style="font-size: 1.2rem; text-align: center; max-width: 700px; opacity: 0.85;">
-        Vous êtes une entreprise basée à <strong>Lyon</strong> ou <strong>Genève</strong> et mes services vous attirent ? Alors <strong>contactez-moi</strong> !
-      </p>
+  <section id="contact-final" style="padding:4rem 2rem 2rem;">
+    <h2 style="margin-bottom:2rem;text-align:center;">Contact & Mentions légales</h2>
+    <p style="font-size:1.2rem;text-align:center;max-width:700px;margin:auto;opacity:.85;">Vous êtes une entreprise basée à <strong>Lyon</strong> ou <strong>Genève</strong> et mes services vous attirent ? Alors <strong>contactez-moi</strong> !</p>
+    <div class="fade-links">
+      <a href="https://calendly.com/adrienalvarez/call" target="_blank" style="padding:.8rem 2rem;background:var(--accent);color:#fff;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.1);">Prendre rendez-vous</a>
+      <a href="https://www.linkedin.com/in/adrien-alvarez-data-analyst/" target="_blank" style="padding:.8rem 2rem;background:#0077b5;color:#fff;border-radius:999px;text-decoration:none;font-weight:600;box-shadow:0 6px 20px rgba(0,0,0,.1);">Voir mon LinkedIn</a>
     </div>
-  
-    <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin: 3rem 0; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease;" class="fade-links">
-      <a href="https://calendly.com/adrienalvarez/call" target="_blank"
-         style="padding: 0.8rem 2rem; background-color: var(--accent); color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
-        Prendre rendez-vous
-      </a>
-      <a href="https://www.linkedin.com/in/adrien-alvarez-data-analyst/" target="_blank"
-         style="padding: 0.8rem 2rem; background-color: #0077b5; color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
-        Voir mon LinkedIn
-      </a>
-    </div>
-  
-    <footer style="text-align: center; font-size: 0.9rem; opacity: 0.6;">
-      <p><a href="#" style="text-decoration: underline; color: inherit;">Mentions légales</a> • <a href="#" style="text-decoration: underline; color: inherit;">Cookies</a></p>
+    <footer style="text-align:center;font-size:.9rem;opacity:.6;margin-top:2rem;">
+      <p><a href="#" style="text-decoration:underline;color:inherit;">Mentions légales</a> • <a href="#" style="text-decoration:underline;color:inherit;">Cookies</a></p>
       <p>&copy; Adrien Alvarez — 2025. Tous droits réservés.</p>
     </footer>
   </section>
-  
-  
-  
-  
-  
-
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const counters = document.querySelectorAll('.kpi');
-      const duration = 1800;
-
-      const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          const el = entry.target;
-          if (entry.isIntersecting) {
-            el.textContent = '0';
-            animateCounter(el);
-          } else {
-            el.classList.remove('done');
-          }
-        });
-      }, { threshold: 0.6 });
-
-      counters.forEach(counter => counterObserver.observe(counter));
-
-      function animateCounter(el) {
-  if (el.classList.contains('done')) return;
-  const target = +el.dataset.target;
-  const startTime = performance.now();
-  el.classList.add('done');
-
-  const label = el.nextElementSibling?.textContent || '';
-  const withoutPlus = label.includes("Années d'études") || label.includes("Années d'expérience");
-
-  function step(now) {
-    const progress = Math.min((now - startTime) / duration, 1);
-    const value = Math.floor(progress * target).toLocaleString('fr-FR');
-    el.textContent = withoutPlus ? value : '+' + value;
-    if (progress < 1) requestAnimationFrame(step);
-  }
-
-  requestAnimationFrame(step);
-}
-
+    /* KPI counters */
+    document.addEventListener('DOMContentLoaded',()=>{
+      const dur=1800,counters=[...document.querySelectorAll('.kpi')];
+      const obs=new IntersectionObserver(entries=>{
+        entries.forEach(({isIntersecting,target})=>{
+          if(!isIntersecting) return target.classList.remove('done');
+          if(target.classList.contains('done')) return;
+          const max=+target.dataset.target,start=performance.now();
+          const plus=!target.nextElementSibling.textContent.includes("Années");
+          target.classList.add('done');
+          const step=now=>{
+            const p=Math.min((now-start)/dur,1);
+            target.textContent=(plus?'+':'')+Math.floor(p*max).toLocaleString('fr-FR');
+            if(p<1)requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        })
+      },{threshold:.6});
+      counters.forEach(c=>obs.observe(c));
     });
-
-    const sections = document.querySelectorAll("section");
-    let currentSection = 0;
-    let projectIndex = 0;
-    let isScrolling = false;
-
-    const img1 = document.getElementById("img1");
-    const img2 = document.getElementById("img2");
-
-    function setProject(index) {
-      if (index === 0) {
-        img1.src = "logo-warmango.jpeg";
-        img2.src = "dashboard-warmango.png";
-        projectIndex = 0;
-      } else {
-        img1.src = "logo-sdlv.png";
-        img2.src = "dashboard-sdlv.PNG";
-        projectIndex = 1;
-      }
-    }
-
-    function scrollToSection(index) {
-      sections[index].scrollIntoView({ behavior: "smooth" });
-    }
-
-    window.addEventListener("wheel", (e) => {
-      if (isScrolling) return;
-      isScrolling = true;
-
-      const goingDown = e.deltaY > 0;
-
-      if (currentSection === 2) {
-        if (goingDown && projectIndex === 0) {
-          setProject(1);
-        } else if (!goingDown && projectIndex === 1) {
-          setProject(0);
-        } else {
-          currentSection += goingDown ? 1 : -1;
-          scrollToSection(currentSection);
-        }
-      } else {
-        currentSection += goingDown ? 1 : -1;
-        currentSection = Math.max(0, Math.min(sections.length - 1, currentSection));
-        scrollToSection(currentSection);
-      }
-
-      setTimeout(() => isScrolling = false, 800);
+    /* Portfolio slider */
+    (()=>{const data=[{i1:'logo-warmango.jpeg',i2:'dashboard-warmango.png',a1:'Logo Warmango',a2:'Dashboard Warmango'},{i1:'logo-sdlv.png',i2:'dashboard-sdlv.PNG',a1:'Logo SDLV',a2:'Dashboard SDLV'}],i1=img1,i2=img2,prev=prevProject,next=nextProject;let k=0;const show=i=>{k=(i+data.length)%data.length;const d=data[k];i1.src=d.i1;i1.alt=d.a1;i2.src=d.i2;i2.alt=d.a2};prev.onclick=()=>show(k-1);next.onclick=()=>show(k+1);show(0)})();
+    /* Parallax */
+    document.querySelectorAll('.parallax-img').forEach(ctn=>{
+      const img=ctn.firstElementChild;
+      ctn.onmousemove=e=>{
+        const r=ctn.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        img.style.transform=`scale(1.05) translate(${x*15}px,${y*15}px)`;
+      };
+      ctn.onmouseleave=()=>img.style.transform='translateZ(0)';
     });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const scrollTop = window.scrollY;
-      sections.forEach((section, index) => {
-        if (section.offsetTop <= scrollTop + 10 && section.offsetTop + section.offsetHeight > scrollTop) {
-          currentSection = index;
-        }
-      });
-    });
-
-    // Effet parallax léger sur hover
-document.querySelectorAll('.parallax-img').forEach(container => {
-  const img = container.querySelector('img');
-  container.addEventListener('mousemove', e => {
-    const rect = container.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    img.style.transform = `scale(1.05) translate(${x * 15}px, ${y * 15}px)`;
-  });
-  container.addEventListener('mouseleave', () => {
-    img.style.transform = 'translateZ(0)';
-  });
-});
-
-const fadeLinks = document.querySelector('.fade-links');
-const contactObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      fadeLinks.style.opacity = '1';
-      fadeLinks.style.transform = 'translateY(0)';
-    }
-  });
-}, { threshold: 0.6 });
-
-if (fadeLinks) contactObserver.observe(fadeLinks);
-    
-
+    /* Fade-in links */
+    const links=document.querySelector('.fade-links');
+    const obs2=new IntersectionObserver(e=>e[0].isIntersecting&&(links.style.opacity=1,links.style.transform='translateY(0)'),{threshold:.6});
+    obs2.observe(links);
   </script>
 </body>
 </html>
