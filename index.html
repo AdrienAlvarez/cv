@@ -57,19 +57,25 @@
       <div><div class="kpi" data-target="2">0</div><div class="kpi-label">Années d’expérience en entreprise</div></div>
     </div>
   </section>
-  <section id="portfolio">
-    <h2>Portfolio</h2>
-    <div class="portfolio-wrapper">
-      <button id="prevProject" class="portfolio-btn" aria-label="Projet précédent">‹</button>
-      <div class="portfolio-images">
-        <img id="img1" src="logo-warmango.jpeg" alt="Logo Warmango" class="hover-scale">
-        <img id="img2" src="dashboard-warmango.png" alt="Dashboard Warmango" class="hover-scale">
+  <section id="portfolio" style="position: relative;">
+  <h2>Portfolio</h2>
+  <div class="portfolio-wrapper" style="position: relative; width: 90%; max-width: 1000px; margin: 0 auto; align-items: center;">
+    <button id="prevProject" class="portfolio-btn" aria-label="Projet précédent" style="position: absolute; left: -2rem; top: 50%; transform: translateY(-50%); z-index: 10;">‹</button>
+    <div class="portfolio-images" style="display: flex; align-items: flex-start; justify-content: center; gap: 3rem;">
+      <div style="display: flex; flex-direction: column; align-items: center; max-width: 300px;">
+        <img id="img1" src="logo-warmango.jpeg" alt="Logo Warmango" class="hover-scale" style="width: 220px; height: 220px; object-fit: contain; margin-bottom: 1rem;">
+        <!-- DESCRIPTION DYNAMIQUE -->
+        <p id="project-desc" style="text-align: center; font-size: 1rem; opacity: 0.8;"></p>
       </div>
-      <button id="nextProject" class="portfolio-btn" aria-label="Projet suivant">›</button>
+      <img id="img2" src="dashboard-warmango.png" alt="Dashboard Warmango" class="hover-scale" style="width: 550px; height: 350px; object-fit: contain;">
     </div>
-  </section>
+
+    <button id="nextProject" class="portfolio-btn" aria-label="Projet suivant" style="position: absolute; right: -2rem; top: 50%; transform: translateY(-50%); z-index: 10;">›</button>
+  </div>
+</section>
+
   <section id="avis-clients" style="background:#f9f9f9;">
-    <h2>Avis Clients</h2>
+    <h2>Avis clients</h2>
     <div style="display:flex;flex-direction:column;gap:3rem;align-items:center;max-width:1000px;width:100%;">
       <div style="display:flex;align-items:center;gap:1.5rem;max-width:800px;width:100%;">
         <img src="logo-lucas-maisse.jpeg" alt="Lucas Maisse" style="width:80px;height:80px;border-radius:1rem;object-fit:cover;">
@@ -142,7 +148,42 @@
       counters.forEach(c=>obs.observe(c));
     });
     /* Portfolio slider */
-    (()=>{const data=[{i1:'logo-warmango.jpeg',i2:'dashboard-warmango.png',a1:'Logo Warmango',a2:'Dashboard Warmango'},{i1:'logo-sdlv.png',i2:'dashboard-sdlv.PNG',a1:'Logo SDLV',a2:'Dashboard SDLV'}],i1=img1,i2=img2,prev=prevProject,next=nextProject;let k=0;const show=i=>{k=(i+data.length)%data.length;const d=data[k];i1.src=d.i1;i1.alt=d.a1;i2.src=d.i2;i2.alt=d.a2};prev.onclick=()=>show(k-1);next.onclick=()=>show(k+1);show(0)})();
+    (()=>{
+      const data=[
+        {
+          i1:'logo-warmango.jpeg',
+          i2:'dashboard-warmango.png',
+          a1:'Logo Warmango',
+          a2:'Dashboard Warmango',
+          desc:`Entreprise spécialisée dans les matériaux<br>B2B, gestion catalogue & CRM<br>Analyse des ventes & profitabilité`
+        },
+        {
+          i1:'logo-sdlv.png',
+          i2:'dashboard-sdlv.PNG',
+          a1:'Logo SDLV',
+          a2:'Dashboard SDLV',
+          desc:`Site e‑commerce grand public<br>Optimisation du taux de conversion<br>Reporting trafic & ventes`
+        }
+      ];
+      const i1=document.getElementById('img1');
+      const i2=document.getElementById('img2');
+      const descEl=document.getElementById('project-desc');
+      const prev=document.getElementById('prevProject');
+      const next=document.getElementById('nextProject');
+      let k=0;
+      const show=i=>{
+        k=(i+data.length)%data.length;
+        const d=data[k];
+        i1.src=d.i1;
+        i1.alt=d.a1;
+        i2.src=d.i2;
+        i2.alt=d.a2;
+        descEl.innerHTML=d.desc;
+      };
+      prev.onclick=()=>show(k-1);
+      next.onclick=()=>show(k+1);
+      show(0);
+    })();
     /* Parallax */
     document.querySelectorAll('.parallax-img').forEach(ctn=>{
       const img=ctn.firstElementChild;
