@@ -114,11 +114,6 @@
       style="width:90%;max-height:85vh;object-fit:cover;border-radius:1.25rem;"></video>
   </section>
 
-  <section id="intro">
-    <video class="hover-scale" src="video.mp4" autoplay muted loop controls
-      style="width:90%;max-height:85vh;object-fit:cover;border-radius:1.25rem;"></video>
-  </section>
-
   <section id="impact" style="gap: 0;">
     <div style="position: absolute; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem;">
       <img src="logo-harvard.png" alt="Logo 1" style="width: 100px; height: 100px; object-fit: contain;" />
@@ -149,6 +144,14 @@
         <div class="kpi" data-target="2">0</div>
         <div class="kpi-label">Années d'expérience en entreprise</div>
       </div>
+    </div>
+  </section>
+
+  <section id="portfolio">
+    <h2>Portfolio</h2>
+    <div class="portfolio-wrapper">
+      <img id="img1" src="logo-warmango.jpeg" alt="Logo projet" class="hover-scale" />
+      <img id="img2" src="dashboard-warmango.png" alt="Dashboard projet" class="hover-scale" />
     </div>
   </section>
 
@@ -214,7 +217,7 @@
   
     <div style="width: 100%; display: flex; justify-content: center;">
       <p style="font-size: 1.2rem; text-align: center; max-width: 700px; opacity: 0.85;">
-        Basé à <strong>Lyon</strong> ou <strong>Genève</strong> ? Si mon profil a retenu votre attention, c’est sûrement pour une bonne raison. Échangeons !
+        Vous êtes une entreprise basée à <strong>Lyon</strong> ou <strong>Genève</strong> et mes services vous attirent ? Alors <strong>contactez-moi</strong> !
       </p>
     </div>
   
@@ -260,17 +263,24 @@
       counters.forEach(counter => counterObserver.observe(counter));
 
       function animateCounter(el) {
-        if (el.classList.contains('done')) return;
-        const target = +el.dataset.target;
-        const startTime = performance.now();
-        el.classList.add('done');
-        function step(now) {
-          const progress = Math.min((now - startTime) / duration, 1);
-          el.textContent = '+' + Math.floor(progress * target).toLocaleString('fr-FR');
-          if (progress < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }
+  if (el.classList.contains('done')) return;
+  const target = +el.dataset.target;
+  const startTime = performance.now();
+  el.classList.add('done');
+
+  const label = el.nextElementSibling?.textContent || '';
+  const withoutPlus = label.includes("Années d'études") || label.includes("Années d'expérience");
+
+  function step(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const value = Math.floor(progress * target).toLocaleString('fr-FR');
+    el.textContent = withoutPlus ? value : '+' + value;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
     });
 
     const sections = document.querySelectorAll("section");
