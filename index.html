@@ -3,196 +3,363 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mon CV interactif</title>
-  <!-- TailwindCSS CDN -->
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- fullPage.js CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.css" />
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <title>CV – Adrien Alvarez</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
   <style>
-    body{background:#ffffff;}
-    .section{display:flex;align-items:center;justify-content:center;min-height:100vh;}
-    .parallax{background-attachment:fixed;background-size:cover;background-position:center;}
-    img.hover-zoom{transition:transform .3s ease;}
-    img.hover-zoom:hover{transform:scale(1.05);}  
+    :root {
+      --fg: #111;
+      --bg: #fff;
+      --accent: #0066ff;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Inter", sans-serif;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      scroll-snap-type: y mandatory;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    section {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      scroll-snap-align: start;
+      padding: 2rem;
+      position: relative;
+      gap: 2rem;
+      overflow: hidden;
+    }
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      text-align: center;
+    }
+    .hover-scale {
+      transition: transform 0.35s ease;
+      will-change: transform;
+      border-radius: 1.25rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+    }
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+    .kpi-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+    }
+    .kpi {
+      font-size: 3rem;
+      font-weight: 800;
+      transition: transform 0.3s ease;
+    }
+    .kpi:hover {
+      transform: scale(1.1);
+    }
+    .kpi-label {
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+    .portfolio-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      max-width: 1000px;
+      width: 100%;
+    }
+    .portfolio-wrapper img {
+      height: auto;
+      border-radius: 1.25rem;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+      object-fit: contain;
+    }
+    #img1 {
+      width: 300px;
+      max-width: 100%;
+    }
+    #img2 {
+      width: 700px;
+      max-width: 100%;
+    }
+    @media(min-width: 768px) {
+      .portfolio-wrapper {
+        flex-direction: row;
+      }
+    }
   </style>
 </head>
-<body class="text-gray-800">
-  <div id="fullpage">
-    <!-- PAGE 1 — Vidéo -->
-    <section class="section" id="video">
-      <video class="w-screen h-screen object-cover" autoplay muted loop playsinline>
-        <source src="assets/intro.mp4" type="video/mp4" />
-        <!-- Ajoutez éventuellement une piste de sous‑titres -->
-      </video>
-    </section>
+<body>
 
-    <!-- PAGE 2 — IMPACT CHIFFRÉ -->
-    <section class="section flex flex-col space-y-8" id="impact">
-      <h2 class="text-3xl font-bold">Mon impact en chiffres</h2>
-      <div class="grid grid-cols-2 gap-10">
-        <div class="text-center">
-          <span class="counter text-5xl font-extrabold" data-target="22">0</span><span class="text-5xl font-extrabold">%</span>
-          <p class="mt-2">de croissance du CA</p>
-        </div>
-        <div class="text-center">
-          <span class="counter text-5xl font-extrabold" data-target="300">0</span><span class="text-5xl font-extrabold">h</span>
-          <p class="mt-2">de reporting automatisé</p>
-        </div>
-        <!-- Ajoutez deux compteurs de plus si besoin -->
+  <section id="intro">
+    <video class="hover-scale" src="video.mp4" autoplay muted loop controls
+      style="width:90%;max-height:85vh;object-fit:cover;border-radius:1.25rem;"></video>
+  </section>
+
+  <section id="impact" style="gap: 0;">
+    <div style="position: absolute; top: 1.5rem; right: 1.5rem; display: flex; gap: 1rem;">
+      <img src="logo-harvard.png" alt="Logo 1" style="width: 100px; height: 100px; object-fit: contain;" />
+      <img src="logo-esgi.png" alt="Logo 2" style="width: 100px; height: 100px; object-fit: contain;" />
+    </div>
+
+    <a href="https://www.linkedin.com/posts/warmango_nouvelles-arriv%C3%A9es-warmango-ugcPost-7171081422907097088-jf9w?utm_source=share&utm_medium=member_desktop&rcm=ACoAADkRnRQBcVdcmN2EjZCRN4us7BlQJPn3Nx4" target="_blank" style="margin-bottom: 0.8rem;">
+      <img src="work-warmango.png" alt="Photo carrée" style="width: 200px; height: 200px; object-fit: cover; border-radius: 1rem; box-shadow: 0 6px 20px rgba(0,0,0,0.1); cursor: pointer;" />
+    </a>
+
+    <h2 style="margin-bottom: 0.2rem;">Adrien Alvarez</h2>
+    <p style="font-size: 1.2rem; opacity: 0.7; margin: 0;">Data Analyst</p>
+
+    <div class="kpi-container" style="margin-top: 3rem;">
+      <div>
+        <div class="kpi" data-target="150">0</div>
+        <div class="kpi-label">Pages livrées</div>
       </div>
-    </section>
-
-    <!-- PAGE 3 — EXPERTISE & DIPLÔME -->
-    <section class="section flex flex-col items-center space-y-6" id="expertise">
-      <h2 class="text-3xl font-bold">Expertise & Diplômes</h2>
-      <img src="assets/diplome.jpg" alt="Diplôme" class="w-1/3 hover-zoom rounded-xl shadow-xl">
-      <div class="flex flex-wrap justify-center gap-4 max-w-3xl">
-        <!-- Exemple de tag compétence -->
-        <button class="skill-tag bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300" data-skill="python">Python</button>
-        <button class="skill-tag bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300" data-skill="sql">SQL</button>
-        <button class="skill-tag bg-gray-200 rounded-full px-4 py-2 hover:bg-gray-300" data-skill="powerbi">Power&nbsp;BI</button>
-        <!-- Ajoutez d'autres compétences -->
+      <div>
+        <div class="kpi" data-target="1000">0</div>
+        <div class="kpi-label">KPI créés</div>
       </div>
-    </section>
+      <div>
+        <div class="kpi" data-target="37">0</div>
+        <div class="kpi-label">Clients heureux</div>
+      </div>
+      <div>
+        <div class="kpi" data-target="99">0</div>
+        <div class="kpi-label">% satisfaction</div>
+      </div>
+    </div>
+  </section>
 
-    <!-- PAGE 4 — PORTFOLIO : MISSION 1 -->
-    <section class="section flex flex-col items-center space-y-8" id="portfolio1">
-      <h2 class="text-3xl font-bold">Mission phare</h2>
-      <img src="assets/logo1.png" alt="Logo entreprise 1" class="w-32 hover-zoom">
-      <img src="assets/dashboard1.gif" alt="Dashboard interactif" class="w-3/4 rounded-lg hover-zoom shadow-xl">
-    </section>
+  <section id="portfolio">
+    <h2>Portfolio</h2>
+    <div class="portfolio-wrapper">
+      <img id="img1" src="logo-warmango.jpeg" alt="Logo projet" class="hover-scale" />
+      <img id="img2" src="dashboard-warmango.png" alt="Dashboard projet" class="hover-scale" />
+    </div>
+  </section>
 
-    <!-- PAGE 5 — PORTFOLIO : MISSION 2 -->
-    <section class="section flex flex-col items-center space-y-8" id="portfolio2">
-      <h2 class="text-3xl font-bold">Autre mission</h2>
-      <img src="assets/logo2.png" alt="Logo entreprise 2" class="w-32 hover-zoom">
-      <img src="assets/dashboard2.gif" alt="Dashboard interactif" class="w-3/4 rounded-lg hover-zoom shadow-xl">
-    </section>
-
-    <!-- PAGE 6 — AVIS & TÉMOIGNAGES -->
-    <section class="section flex flex-col items-center space-y-6" id="testimonials">
-      <h2 class="text-3xl font-bold">Ils parlent de moi</h2>
-      <!-- Vidéo client -->
-      <video class="w-3/4 rounded-xl shadow-xl hover-zoom" controls>
-        <source src="assets/client-testimonial.mp4" type="video/mp4" />
-      </video>
-      <!-- Carousel citations -->
-      <div class="swiper-container w-3/4">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide text-center">
-            <blockquote class="text-xl italic">« Un travail remarquable et un impact immédiat. »</blockquote>
-            <p class="mt-2">⭐⭐⭐⭐⭐</p>
-          </div>
-          <div class="swiper-slide text-center">
-            <blockquote class="text-xl italic">« Toujours à l'écoute et force de proposition. »</blockquote>
-            <p class="mt-2">⭐⭐⭐⭐⭐</p>
-          </div>
+  <section id="avis-clients" style="background-color: #f9f9f9;">
+    <h2>Avis Clients</h2>
+    <div style="display: flex; flex-direction: column; gap: 3rem; align-items: center; max-width: 1000px; width: 100%;">
+      <div style="display: flex; align-items: center; gap: 1.5rem; width: 100%; max-width: 800px;">
+        <img src="logo-lucas-maisse.jpeg" alt="Logo client 1" style="width: 80px; height: 80px; border-radius: 1rem; object-fit: cover;" />
+        <div style="flex: 1;">
+          <p style="font-size: 1.1rem; font-style: italic;">"Adrien a rejoint Warmango en tant que Data Analyst en alternance, et il a su se distinguer dès le départ par son sérieux et sa détermination. Sa maturité et son professionnalisme font de lui un jeune talent prometteur dans le domaine de la data..."</p>
+          <p style="color: gold; font-size: 1.5rem;">★★★★★</p>
         </div>
       </div>
-    </section>
-
-    <!-- PAGE 7 — HOBBIES = SOFT SKILLS -->
-    <section class="section flex flex-col items-center space-y-6" id="hobbies">
-      <h2 class="text-3xl font-bold">Au‑delà du travail</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-6">
-        <div class="relative overflow-hidden group rounded-xl shadow-xl">
-          <img src="assets/alpinisme.jpg" alt="Alpinisme" class="hover-zoom w-full h-full object-cover">
-          <span class="absolute bottom-4 left-4 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition">Persévérance</span>
-        </div>
-        <div class="relative overflow-hidden group rounded-xl shadow-xl">
-          <img src="assets/piano.jpg" alt="Piano" class="hover-zoom w-full h-full object-cover">
-          <span class="absolute bottom-4 left-4 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition">Sens du détail</span>
-        </div>
-        <div class="relative overflow-hidden group rounded-xl shadow-xl">
-          <img src="assets/lecture.jpg" alt="Lecture" class="hover-zoom w-full h-full object-cover">
-          <span class="absolute bottom-4 left-4 text-white text-lg font-semibold opacity-0 group-hover:opacity-100 transition">Curiosité</span>
+      <div style="display: flex; align-items: center; gap: 1.5rem; width: 100%; max-width: 800px;">
+        <img src="logo-simon-heilles.jpeg" alt="Logo client 2" style="width: 80px; height: 80px; border-radius: 1rem; object-fit: cover;" />
+        <div style="flex: 1;">
+          <p style="font-size: 1.1rem; font-style: italic;">"Je suis son évolution dans ce domaine depuis maintenant plusieurs années et c'est toujours un plaisir d'échanger avec lui. Je n'ai aucun doute sur le fait que d'ici peu, il ait réussi à devenir une référence dans le domaine de la data..."</p>
+          <p style="color: gold; font-size: 1.5rem;">★★★★★</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- PAGE 8 — CV DÉTAILLÉ -->
-    <section class="section flex flex-col items-center space-y-6" id="cv">
-      <h2 class="text-3xl font-bold">CV détaillé</h2>
-      <iframe src="assets/cv.pdf#toolbar=0" class="w-3/4 h-3/4 border shadow-xl"></iframe>
-      <a href="assets/cv.pdf" download class="mt-4 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700">Télécharger le PDF</a>
-    </section>
+  <section id="loisirs" style="background-color: #fff;">
+    <h2>En dehors du travail</h2>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; align-items: center; max-width: 1000px; width: 100%; perspective: 1000px;">
+      <div class="parallax-img" style="width: 300px; height: 200px; overflow: hidden; border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+        <img src="alpinisme.jpg" alt="Alpinisme" style="width: 100%; height: 100%; object-fit: cover; transform: translateZ(0); transition: transform 0.5s ease;" />
+      </div>
+      <div class="parallax-img" style="width: 300px; height: 200px; overflow: hidden; border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+        <img src="echec.png" alt="Echec" style="width: 100%; height: 100%; object-fit: cover; transform: translateZ(0); transition: transform 0.5s ease;" />
+      </div>
+      <div class="parallax-img" style="width: 300px; height: 200px; overflow: hidden; border-radius: 1.25rem; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+        <img src="lecture.jpg" alt="Lecture" style="width: 100%; height: 100%; object-fit: cover; transform: translateZ(0); transition: transform 0.5s ease;" />
+      </div>
+    </div>
+  </section>
 
-    <!-- PAGE 9 — CALL-TO-ACTION FINAL -->
-    <section class="section flex flex-col items-center space-y-6" id="contact">
-      <h2 class="text-3xl font-bold">Contactez‑moi</h2>
-      <form action="https://formspree.io/f/{votre-id}" method="POST" class="w-full max-w-md space-y-4">
-        <input type="text" name="name" placeholder="Nom" required class="w-full border p-3 rounded">
-        <input type="email" name="email" placeholder="Email" required class="w-full border p-3 rounded">
-        <textarea name="need" placeholder="Votre besoin" required class="w-full border p-3 rounded"></textarea>
-        <button type="submit" class="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">Envoyer</button>
-      </form>
-      <a href="https://calendly.com/votre-calendly" target="_blank" class="text-blue-600 underline">Réserver un créneau Calendly</a>
-    </section>
+  <section id="cv-detaille" style="background-color: #f9f9f9;">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; width: 100%; max-width: 900px; margin: auto; padding: 4rem 2rem;">
+      <h2 style="text-align: center;">CV détaillé</h2>
+  
+      <iframe 
+        src="CV.pdf#toolbar=0" 
+        style="width: 100%; height: 55vh; border: none; border-radius: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.05);"
+      ></iframe>
+  
+      <a href="CV.pdf" download 
+         style="padding: 0.8rem 2rem; background-color: var(--accent); color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1); transition: background 0.3s ease;">
+        Télécharger le CV
+      </a>
+    </div>
+  </section>
+  
+  
+  
+  
+  
+  
+  
+  <section id="contact-final" style="background-color: #fff; padding: 4rem 2rem 2rem;">
+    <h2 style="text-align: center; margin-bottom: 2rem;">Contact & Mentions légales</h2>
+  
+    <div style="width: 100%; display: flex; justify-content: center;">
+      <p style="font-size: 1.2rem; text-align: center; max-width: 700px; opacity: 0.85;">
+        Vous êtes une entreprise basée à <strong>Lyon</strong> ou <strong>Genève</strong> et mes services vous attirent ? Alors <strong>contactez-moi</strong> !
+      </p>
+    </div>
+  
+    <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin: 3rem 0; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease;" class="fade-links">
+      <a href="https://calendly.com/adrienalvarez/call" target="_blank"
+         style="padding: 0.8rem 2rem; background-color: var(--accent); color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
+        Prendre rendez-vous
+      </a>
+      <a href="https://www.linkedin.com/in/adrien-alvarez-data-analyst/" target="_blank"
+         style="padding: 0.8rem 2rem; background-color: #0077b5; color: white; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
+        Voir mon LinkedIn
+      </a>
+    </div>
+  
+    <footer style="text-align: center; font-size: 0.9rem; opacity: 0.6;">
+      <p><a href="#" style="text-decoration: underline; color: inherit;">Mentions légales</a> • <a href="#" style="text-decoration: underline; color: inherit;">Cookies</a></p>
+      <p>&copy; Adrien Alvarez — 2025. Tous droits réservés.</p>
+    </footer>
+  </section>
+  
+  
+  
+  
+  
 
-    <!-- PAGE 10 — FOOTER / MENTIONS -->
-    <section class="section flex flex-col items-center text-center space-y-4 text-sm" id="footer">
-      <p>© 2025 Votre Nom. Tous droits réservés.</p>
-      <a href="mentions-legales.html" class="underline">Mentions légales</a>
-      <a href="politique-cookies.html" class="underline">Politique cookies</a>
-      <a href="https://www.linkedin.com/in/votreprofil" target="_blank" class="underline">LinkedIn</a>
-    </section>
-  </div>
-
-  <!-- fullPage.js JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.20/fullpage.min.js"></script>
-  <!-- Swiper JS -->
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
-    // Init fullPage
-    new fullpage('#fullpage', {
-      autoScrolling: true,
-      navigation: true,
-      scrollingSpeed: 800,
-      anchors: ['video','impact','expertise','portfolio1','portfolio2','testimonials','hobbies','cv','contact','footer'],
+    document.addEventListener('DOMContentLoaded', () => {
+      const counters = document.querySelectorAll('.kpi');
+      const duration = 1800;
+
+      const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const el = entry.target;
+          if (entry.isIntersecting) {
+            el.textContent = '0';
+            animateCounter(el);
+          } else {
+            el.classList.remove('done');
+          }
+        });
+      }, { threshold: 0.6 });
+
+      counters.forEach(counter => counterObserver.observe(counter));
+
+      function animateCounter(el) {
+        if (el.classList.contains('done')) return;
+        const target = +el.dataset.target;
+        const startTime = performance.now();
+        el.classList.add('done');
+        function step(now) {
+          const progress = Math.min((now - startTime) / duration, 1);
+          el.textContent = '+' + Math.floor(progress * target).toLocaleString('fr-FR');
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
     });
 
-    // Counters animation
-    function animateCounter(el) {
-      const target = +el.getAttribute('data-target');
-      const duration = 1500;
-      const step = Math.ceil(target / (duration / 16));
-      let current = 0;
-      function update() {
-        current += step;
-        if (current >= target) {
-          el.textContent = target;
-        } else {
-          el.textContent = current;
-          requestAnimationFrame(update);
-        }
+    const sections = document.querySelectorAll("section");
+    let currentSection = 0;
+    let projectIndex = 0;
+    let isScrolling = false;
+
+    const img1 = document.getElementById("img1");
+    const img2 = document.getElementById("img2");
+
+    function setProject(index) {
+      if (index === 0) {
+        img1.src = "logo-warmango.jpeg";
+        img2.src = "dashboard-warmango.png";
+        projectIndex = 0;
+      } else {
+        img1.src = "logo-sdlv.png";
+        img2.src = "dashboard-sdlv.PNG";
+        projectIndex = 1;
       }
-      update();
     }
 
-    // Trigger counters on section load
-    document.addEventListener('fpAfterLoad', function(e){
-      if(e.anchor === 'impact'){
-        document.querySelectorAll('.counter').forEach(animateCounter);
+    function scrollToSection(index) {
+      sections[index].scrollIntoView({ behavior: "smooth" });
+    }
+
+    window.addEventListener("wheel", (e) => {
+      if (isScrolling) return;
+      isScrolling = true;
+
+      const goingDown = e.deltaY > 0;
+
+      if (currentSection === 2) {
+        if (goingDown && projectIndex === 0) {
+          setProject(1);
+        } else if (!goingDown && projectIndex === 1) {
+          setProject(0);
+        } else {
+          currentSection += goingDown ? 1 : -1;
+          scrollToSection(currentSection);
+        }
+      } else {
+        currentSection += goingDown ? 1 : -1;
+        currentSection = Math.max(0, Math.min(sections.length - 1, currentSection));
+        scrollToSection(currentSection);
       }
+
+      setTimeout(() => isScrolling = false, 800);
     });
 
-    // Skill tag popover (simple alert — remplacez par un vrai pop‑over si besoin)
-    document.querySelectorAll('.skill-tag').forEach(tag=>{
-      tag.addEventListener('click', ()=>{
-        alert('Exemple de projet lié à ' + tag.textContent + ' (à personnaliser)');
+    document.addEventListener("DOMContentLoaded", () => {
+      const scrollTop = window.scrollY;
+      sections.forEach((section, index) => {
+        if (section.offsetTop <= scrollTop + 10 && section.offsetTop + section.offsetHeight > scrollTop) {
+          currentSection = index;
+        }
       });
     });
 
-    // Swiper testimonials
-    new Swiper('.swiper-container', {
-      loop: true,
-      autoplay: {
-        delay: 4000,
-      },
-      effect: 'fade',
-    });
+    // Effet parallax léger sur hover
+document.querySelectorAll('.parallax-img').forEach(container => {
+  const img = container.querySelector('img');
+  container.addEventListener('mousemove', e => {
+    const rect = container.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    img.style.transform = `scale(1.05) translate(${x * 15}px, ${y * 15}px)`;
+  });
+  container.addEventListener('mouseleave', () => {
+    img.style.transform = 'translateZ(0)';
+  });
+});
+
+const fadeLinks = document.querySelector('.fade-links');
+const contactObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      fadeLinks.style.opacity = '1';
+      fadeLinks.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.6 });
+
+if (fadeLinks) contactObserver.observe(fadeLinks);
+    
+
   </script>
 </body>
 </html>
